@@ -11,6 +11,7 @@ import controleur.ControllerSimpleGame;
 import controleur.InterfaceController;
 import game.BombermanGame;
 import game.Game;
+import view.ViewAuthenticator;
 import view.ViewBombermanGame;
 import view.ViewCommand;
 import view.ViewSimpleGame;
@@ -19,7 +20,8 @@ public class Test {
 
 	public static void main(String[] args) {
 
-		ControleurBombermanGame CBG = new ControleurBombermanGame(false);
+		//ControleurBombermanGame CBG = new ControleurBombermanGame(false);
+		ViewAuthenticator VA = new ViewAuthenticator();
 	}
 
 }
