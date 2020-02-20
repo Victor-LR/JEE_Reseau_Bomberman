@@ -4,12 +4,16 @@ import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import sun.security.util.Password;
 
 public class ViewAuthenticator {
 	
@@ -24,6 +28,9 @@ public class ViewAuthenticator {
 	private JLabel label_mdp ;
 	private JPasswordField mdp;
 	
+	private String identifiant = "";
+	private Password mot_de_passe;
+	
 	public ViewAuthenticator() {
 		
 		affiche = new JFrame();
@@ -34,7 +41,7 @@ public class ViewAuthenticator {
 		label_id = new JLabel();
 		label_id.setLayout(new GridLayout(1,2));
 		texte_id = new JLabel(" Identifiant : ");
-		identification = new JTextField(20);
+		identification = new JTextField(25);
 		label_id.add(texte_id);
 		label_id.add(identification);
 		
@@ -52,13 +59,41 @@ public class ViewAuthenticator {
 		Point centerPoint = ge.getCenterPoint();
 		int dx = centerPoint.x - windowSize.width / 2 ;
 		int dy = centerPoint.y - windowSize.height / 2 ;
+		affiche.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		affiche.setLocation(dx, dy);
 		
 		affiche.add(label_id);
 		affiche.add(label_mdp);
 		affiche.add(valider);
 		affiche.setVisible(true);
+		
+		valider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evenement) {
+				identifiant = identification.getText().toString();
+				
+				//mot_de_passe = mdp.getSelectedText().toString();
+				
+				System.out.println("Id :" + identifiant);
+				}
+			});
+		
+		
 	}
+
+
+	public Password getMot_de_passe() {
+		return mot_de_passe;
+	}
+
+	public String getIdentifiant() {
+		// TODO Auto-generated method stub
+		return identifiant;
+	}
+	
+	public void FermerFenetre() {
+		affiche.dispose();
+	}
+	
 	
 	
 }
