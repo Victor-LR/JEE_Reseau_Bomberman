@@ -4,11 +4,37 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link type="text/css" rel="stylesheet" href="inc/style.css" />
 <meta charset="UTF-8">
 <title>Accueil</title>
-	<a href="<c:url value="/CreationUtilisateur" />" >Créer un utilisateur</a></br>
+
 </head>
+
+	<header>
+	<h1>Bienvenue sur Bomberman</h1>
+	</header>
+	
+	
 <body>
+<fieldset>
+	<legend>Connexion</legend>
+	<form action="Connexion" method="post">
+		<label for="pseudoUtilisateur">Pseudo </label>
+		<input type="text" id="pseudoUtilisateur" name="pseudoUtilisateur" value="" size="20" maxlength="20" />
+		<br />
+		
+		<label for="mdpUtilisateur">Mot de passe </label>
+		<input type="password" id="mdpUtilisateur" name="mdpUtilisateur" value="" size="20" maxlength="20" />
+		<br />
+		
+		<input type="submit" value="Connexion"  />
+		<input type="reset" value="Reset" /> <br />
+		
+	</form>
+	<a href="<c:url value="/CreationUtilisateur" />" >Créer un utilisateur</a></br>
+	</fieldset>
+	
+	<c:out value="${succes }"></c:out>
 
 </body>
 </html>
