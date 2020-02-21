@@ -142,7 +142,7 @@ public class CreationUtilisateur extends HttpServlet {
 		}
 		String url = "jdbc:mysql://localhost:3306/bdd_bomberman";
 		String utilisateur = "root";
-		String motDePasse = "ce1mdpp";
+		String motDePasse = "mysql";
 		Connection connexion = null;
 		PreparedStatement statement = null;
 		ResultSet resultat = null;
@@ -152,7 +152,7 @@ public class CreationUtilisateur extends HttpServlet {
 
 			/* Création de l'objet gérant les requêtes */
 			statement = connexion.prepareStatement(
-					"INSERT INTO Utilisateur (email, mot_de_passe, nom, prenom, pseudo, date_inscription) VALUES(?, MD5(?), ?, ?, ?, NOW());");
+					"INSERT INTO Utilisateur (email, mot_de_passe, nom, prenom, pseudo, date_inscription) VALUES(?, ?, ?, ?, ?, NOW());");
 			String paramEmail = request.getParameter(CHAMP_MAIL);
 			String paramMdp = request.getParameter(CHAMP_MDP);
 			String paramNom = request.getParameter(CHAMP_NOM);

@@ -26,10 +26,10 @@ public class ViewAuthenticator {
 	
 	private JLabel texte_mdp;
 	private JLabel label_mdp ;
-	private JPasswordField mdp;
+	private JTextField mdp;
 	
 	private String identifiant = "";
-	private Password mot_de_passe;
+	private String mot_de_passe = "";
 	
 	public ViewAuthenticator() {
 		
@@ -48,7 +48,7 @@ public class ViewAuthenticator {
 		label_mdp = new JLabel();
 		label_mdp.setLayout(new GridLayout(1,2));
 		texte_mdp = new JLabel(" Mot de passe : ");
-		mdp = new JPasswordField(20);
+		mdp = new JTextField(20);
 		label_mdp.add(texte_mdp);
 		label_mdp.add(mdp);
 		
@@ -70,10 +70,12 @@ public class ViewAuthenticator {
 		valider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evenement) {
 				identifiant = identification.getText().toString();
-				
+				mot_de_passe = mdp.getText().toString();
 				//mot_de_passe = mdp.getSelectedText().toString();
 				
 				System.out.println("Id :" + identifiant);
+				System.out.println("MDP :" + mot_de_passe);
+				
 				}
 			});
 		
@@ -81,7 +83,7 @@ public class ViewAuthenticator {
 	}
 
 
-	public Password getMot_de_passe() {
+	public String getMot_de_passe() {
 		return mot_de_passe;
 	}
 

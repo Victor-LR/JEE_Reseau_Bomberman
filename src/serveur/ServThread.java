@@ -41,14 +41,19 @@ public class ServThread implements Runnable {
 			if(!chainerecue.equals(""))
 				System.out.println("     "+chainerecue);
 			
-			
-			
 			if(chainerecue.equals("exit")) {
 				stop();
 				socket.close();
 				break;
 				
 			}
+			
+//			try {
+//				this.wait();
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 
 //				System.out.println("Le nombre inconnu est compris entre " + borne_min + " et " + borne_max);
 //			}
