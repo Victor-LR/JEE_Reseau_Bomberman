@@ -20,11 +20,15 @@
 	<legend>Connexion</legend>
 	<form action="Connexion" method="post">
 		<label for="pseudoUtilisateur">Pseudo </label>
-		<input type="text" id="pseudoUtilisateur" name="pseudoUtilisateur" value="" size="20" maxlength="20" />
+		<input type="text" id="pseudoUtilisateur" name="pseudoUtilisateur" value='<c:out value="${param.pseudoUtilisateur }"></c:out>' size="20" maxlength="20" />
+		<span class="erreur">${erreurpseudo}</span>
+		
 		<br />
 		
 		<label for="mdpUtilisateur">Mot de passe </label>
 		<input type="password" id="mdpUtilisateur" name="mdpUtilisateur" value="" size="20" maxlength="20" />
+		<span class="erreur">${erreurmdp}</span>
+
 		<br />
 		
 		<input type="submit" value="Connexion"  />

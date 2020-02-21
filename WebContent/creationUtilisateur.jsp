@@ -15,22 +15,22 @@
             
 			<form method="post" action="CreationUtilisateur">
             <label for="nomUtilisateur">Nom <span class="requis">*</span></label>
-            <input type="text" id="nomUtilisateur" name="nomUtilisateur" value="${nom }" size="20" maxlength="20" />
+            <input type="text" id="nomUtilisateur" name="nomUtilisateur" value="<c:out value="${param.nomUtilisateur }"/>" size="20" maxlength="20" />
             <span class="erreur">${erreurnom}</span>
             <br />
             
             <label for="prenomUtilisateur">Prénom </label>
-            <input type="text" id="prenomUtilisateur" name="prenomUtilisateur" value="${prenom }" size="20" maxlength="20" />
+            <input type="text" id="prenomUtilisateur" name="prenomUtilisateur" value="<c:out value="${param.prenomUtilisateur }"/>" size="20" maxlength="20" />
             <span class="erreur">${erreurprenom}</span>
             <br />
             
             <label for="emailUtilisateur">Adresse email</label>
-            <input type="email" id="emailUtilisateur" name="emailUtilisateur" value="${mail }" size="20" maxlength="60" />
+            <input type="email" id="emailUtilisateur" name="emailUtilisateur" value="<c:out value="${param.emailUtilisateur }"/>" size="20" maxlength="60" />
             <span class="erreur">${erreuremail}</span>
             <br />
             
             <label for="pseudoUtilisateur">Pseudo</label>
-            <input type="text" id="pseudoUtilisateur" name="pseudoUtilisateur" value="${pseudo }" size="20" maxlength="60" />
+            <input type="text" id="pseudoUtilisateur" name="pseudoUtilisateur" value="<c:out value="${param.pseudoUtilisateur }"/>" size="20" maxlength="60" />
             <span class="erreur">${erreurpseudo}</span>
             <br />
             
@@ -45,6 +45,8 @@
             <br />
             
             <input type="submit" value="Valider"  />
+			<input type="reset" value="reset"  />
+            
 			<br />
             
             </form>

@@ -77,6 +77,12 @@ public class CreationUtilisateur extends HttpServlet {
 			request.setAttribute("erreurprenom", e.getMessage());
 		}
 		try {
+			validePseudo(pseudo);
+		} catch (Exception e) {
+			erreur = true;
+			request.setAttribute("erreurpseudo", e.getMessage());
+		}
+		try {
 			valideMdp(mdp);
 		} catch (Exception e) {
 			erreur = true;
@@ -89,16 +95,13 @@ public class CreationUtilisateur extends HttpServlet {
 			request.setAttribute("erreurmdp2", e.getMessage());
 		}
 		if (erreur) {
-			request.setAttribute("nom", nom);
-			request.setAttribute("prenom", prenom);
-			request.setAttribute("mail", mail);
-			request.setAttribute("pseudo", pseudo);
 			this.getServletContext().getRequestDispatcher("/creationUtilisateur.jsp").forward(request, response);
 		} else {
 			Utilisateur util = new Utilisateur(nom, prenom, pseudo, mdp, mail);
 			executerInsert(request);
 			request.setAttribute("succes", "Création réussie");
-			this.getServletContext().getRequestDispatcher("/accueil.jsp").forward(request, response);
+			session.setAttribute("pseudo", pseudo);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/accueilUtilisateur.jsp").forward(request, response);
 		}
 	}
 
@@ -113,9 +116,9 @@ public class CreationUtilisateur extends HttpServlet {
 			throw (new Exception("Le prénom doit contenir 2 caractères !"));
 	}
 
-	public void valideAdresse(String adresse) throws Exception {
-		if (adresse.length() < 0)
-			throw (new Exception("L'adresse doit contenir 10 caractères !"));
+	public void validePseudo(String pseudo) throws Exception {
+		if (pseudo.length() < 2)
+			throw (new Exception("Le pseudo doit contenir 2 caractères !"));
 	}
 
 	public void valideMdp(String mdp) throws Exception {
