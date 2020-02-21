@@ -58,6 +58,7 @@ public class CreationUtilisateur extends HttpServlet {
 		boolean erreur = false;
 		HttpSession session = request.getSession();
 
+		Integer id = null;
 		String nom = request.getParameter(CHAMP_NOM);
 		String prenom = request.getParameter(CHAMP_PRENOM);
 		String mail = request.getParameter(CHAMP_MAIL);
@@ -94,14 +95,20 @@ public class CreationUtilisateur extends HttpServlet {
 			erreur = true;
 			request.setAttribute("erreurmdp2", e.getMessage());
 		}
+		try {
+			valideEmail(mail);
+		} catch (Exception e) {
+			erreur = true;
+			request.setAttribute("erreuremail", e.getMessage());
+		}
 		if (erreur) {
 			this.getServletContext().getRequestDispatcher("/creationUtilisateur.jsp").forward(request, response);
 		} else {
-			Utilisateur util = new Utilisateur(nom, prenom, pseudo, mdp, mail);
+			Utilisateur util = new Utilisateur(nom, prenom, pseudo, mdp, mail, id);
 			executerInsert(request);
 			request.setAttribute("succes", "Création réussie");
-			session.setAttribute("pseudo", pseudo);
-			this.getServletContext().getRequestDispatcher("/WEB-INF/accueilUtilisateur.jsp").forward(request, response);
+			session.setAttribute("utilisateur", util);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/creationReussie.jsp").forward(request, response);
 		}
 	}
 
@@ -133,7 +140,13 @@ public class CreationUtilisateur extends HttpServlet {
 		}
 	}
 
-	public void executerInsert(HttpServletRequest request) {
+	public void valideEmail(String email) throws Exception {
+		if (email.isEmpty()) {
+			throw (new Exception("Le champ doit être rempli !"));
+		}
+	}
+
+	public Integer executerInsert(HttpServletRequest request) {
 		/* Connexion à la base de données */
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -143,6 +156,8 @@ public class CreationUtilisateur extends HttpServlet {
 		String url = "jdbc:mysql://localhost:3306/bdd_bomberman";
 		String utilisateur = "root";
 		String motDePasse = "ce1mdpp";
+
+		Integer id = null;
 		Connection connexion = null;
 		PreparedStatement statement = null;
 		ResultSet resultat = null;
@@ -152,7 +167,7 @@ public class CreationUtilisateur extends HttpServlet {
 
 			/* Création de l'objet gérant les requêtes */
 			statement = connexion.prepareStatement(
-					"INSERT INTO Utilisateur (email, mot_de_passe, nom, prenom, pseudo, date_inscription) VALUES(?, MD5(?), ?, ?, ?, NOW());");
+					"INSERT INTO Utilisateur (email, mot_de_passe, nom, prenom, pseudo, date_inscription) VALUES(?, ?, ?, ?, ?, NOW());");
 			String paramEmail = request.getParameter(CHAMP_MAIL);
 			String paramMdp = request.getParameter(CHAMP_MDP);
 			String paramNom = request.getParameter(CHAMP_NOM);
@@ -166,8 +181,13 @@ public class CreationUtilisateur extends HttpServlet {
 			statut = statement.executeUpdate();
 			/* Exécution d'une requête de lecture */
 			// resultat = statement.executeQuery();
-
-			/* Récupération des données du résultat de la requête de lecture */
+			statement = connexion.prepareStatement("SELECT * FROM Utilisateur WHERE pseudo = ?;");
+			statement.setString(1, paramPseudo);
+			/* Exécution d'une requête de lecture */
+			resultat = statement.executeQuery();
+			if (resultat.next()) {
+				id = resultat.getInt("id");
+			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -190,5 +210,6 @@ public class CreationUtilisateur extends HttpServlet {
 				}
 			}
 		}
+		return id;
 	}
 }

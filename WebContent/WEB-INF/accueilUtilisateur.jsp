@@ -9,12 +9,13 @@
 <title>Accueil utilisateur</title>
 </head>
 <body>
-	<h1><c:out value="Bienvenue ${sessionScope.pseudo }" /></h1>
+	<h1><c:out value="Bienvenue ${sessionScope.utilisateur.pseudo }" /></h1>
 	<fieldset>
 	<legend>Historique des parties</legend>
 	<p>Nombre de parties jouées : </p></br>
 	<p>Victoire / Défaites : </p></br>
 	</fieldset>
-	<a href="<c:url value="/CreationUtilisateur" />" >Suppression du compte</a>
+	<input type=button onclick=window.location.href='Suppression'; value="Suppresion du compte" />
+	<input type=button onclick=window.location.href='Deconnexion'; value="Déconnexion" />
 </body>
 </html>
