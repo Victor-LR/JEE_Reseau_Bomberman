@@ -4,32 +4,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link type="text/css" rel="stylesheet" href="inc/style.css" />
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Création d'un utilisateur</title>
 </head>
 <body>	
 	<div>
         <fieldset>
-            <legend>Informations Utilisateurs</legend>
+            <legend>Informations de l'utilisateur</legend>
             
 			<form method="post" action="CreationUtilisateur">
             <label for="nomUtilisateur">Nom <span class="requis">*</span></label>
-            <input type="text" id="nomUtilisateur" name="nomUtilisateur" value="" size="20" maxlength="20" />
+            <input type="text" id="nomUtilisateur" name="nomUtilisateur" value="<c:out value="${param.nomUtilisateur }"/>" size="20" maxlength="20" />
             <span class="erreur">${erreurnom}</span>
             <br />
             
             <label for="prenomUtilisateur">Prénom </label>
-            <input type="text" id="prenomUtilisateur" name="prenomUtilisateur" value="" size="20" maxlength="20" />
+            <input type="text" id="prenomUtilisateur" name="prenomUtilisateur" value="<c:out value="${param.prenomUtilisateur }"/>" size="20" maxlength="20" />
             <span class="erreur">${erreurprenom}</span>
             <br />
             
             <label for="emailUtilisateur">Adresse email</label>
-            <input type="email" id="emailUtilisateur" name="emailUtilisateur" value="" size="20" maxlength="60" />
+            <input type="email" id="emailUtilisateur" name="emailUtilisateur" value="<c:out value="${param.emailUtilisateur }"/>" size="20" maxlength="60" />
             <span class="erreur">${erreuremail}</span>
             <br />
             
             <label for="pseudoUtilisateur">Pseudo</label>
-            <input type="text" id="pseudoUtilisateur" name="pseudoUtilisateur" value="" size="20" maxlength="60" />
+            <input type="text" id="pseudoUtilisateur" name="pseudoUtilisateur" value="<c:out value="${param.pseudoUtilisateur }"/>" size="20" maxlength="60" />
             <span class="erreur">${erreurpseudo}</span>
             <br />
             
@@ -44,7 +45,9 @@
             <br />
             
             <input type="submit" value="Valider"  />
-		    <input type="reset" value="Remettre à zéro" /> <br />
+			<input type="reset" value="reset"  />
+            
+			<br />
             
             </form>
             

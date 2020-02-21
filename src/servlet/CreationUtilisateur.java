@@ -1,12 +1,18 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.Utilisateur;
 
@@ -28,7 +34,7 @@ public class CreationUtilisateur extends HttpServlet {
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public CreationUtilisateur() {
-		super();//
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -50,6 +56,8 @@ public class CreationUtilisateur extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		boolean erreur = false;
+		HttpSession session = request.getSession();
+
 		String nom = request.getParameter(CHAMP_NOM);
 		String prenom = request.getParameter(CHAMP_PRENOM);
 		String mail = request.getParameter(CHAMP_MAIL);
@@ -69,6 +77,12 @@ public class CreationUtilisateur extends HttpServlet {
 			request.setAttribute("erreurprenom", e.getMessage());
 		}
 		try {
+			validePseudo(pseudo);
+		} catch (Exception e) {
+			erreur = true;
+			request.setAttribute("erreurpseudo", e.getMessage());
+		}
+		try {
 			valideMdp(mdp);
 		} catch (Exception e) {
 			erreur = true;
@@ -84,7 +98,10 @@ public class CreationUtilisateur extends HttpServlet {
 			this.getServletContext().getRequestDispatcher("/creationUtilisateur.jsp").forward(request, response);
 		} else {
 			Utilisateur util = new Utilisateur(nom, prenom, pseudo, mdp, mail);
-			this.getServletContext().getRequestDispatcher("/accueil.jsp").forward(request, response);
+			executerInsert(request);
+			request.setAttribute("succes", "Création réussie");
+			session.setAttribute("pseudo", pseudo);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/accueilUtilisateur.jsp").forward(request, response);
 		}
 	}
 
@@ -99,9 +116,9 @@ public class CreationUtilisateur extends HttpServlet {
 			throw (new Exception("Le prénom doit contenir 2 caractères !"));
 	}
 
-	public void valideAdresse(String adresse) throws Exception {
-		if (adresse.length() < 0)
-			throw (new Exception("L'adresse doit contenir 10 caractères !"));
+	public void validePseudo(String pseudo) throws Exception {
+		if (pseudo.length() < 2)
+			throw (new Exception("Le pseudo doit contenir 2 caractères !"));
 	}
 
 	public void valideMdp(String mdp) throws Exception {
@@ -116,4 +133,62 @@ public class CreationUtilisateur extends HttpServlet {
 		}
 	}
 
+	public void executerInsert(HttpServletRequest request) {
+		/* Connexion à la base de données */
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
+		String url = "jdbc:mysql://localhost:3306/bdd_bomberman";
+		String utilisateur = "root";
+		String motDePasse = "ce1mdpp";
+		Connection connexion = null;
+		PreparedStatement statement = null;
+		ResultSet resultat = null;
+		int statut = 0;
+		try {
+			connexion = DriverManager.getConnection(url, utilisateur, motDePasse);
+
+			/* Création de l'objet gérant les requêtes */
+			statement = connexion.prepareStatement(
+					"INSERT INTO Utilisateur (email, mot_de_passe, nom, prenom, pseudo, date_inscription) VALUES(?, MD5(?), ?, ?, ?, NOW());");
+			String paramEmail = request.getParameter(CHAMP_MAIL);
+			String paramMdp = request.getParameter(CHAMP_MDP);
+			String paramNom = request.getParameter(CHAMP_NOM);
+			String paramPrenom = request.getParameter(CHAMP_PRENOM);
+			String paramPseudo = request.getParameter(CHAMP_PSEUDO);
+			statement.setString(1, paramEmail);
+			statement.setString(2, paramMdp);
+			statement.setString(3, paramNom);
+			statement.setString(4, paramPrenom);
+			statement.setString(5, paramPseudo);
+			statut = statement.executeUpdate();
+			/* Exécution d'une requête de lecture */
+			// resultat = statement.executeQuery();
+
+			/* Récupération des données du résultat de la requête de lecture */
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			if (resultat != null) {
+				try {
+					resultat.close();
+				} catch (SQLException ignore) {
+				}
+			}
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException ignore) {
+				}
+			}
+			if (connexion != null) {
+				try {
+					connexion.close();
+				} catch (SQLException ignore) {
+				}
+			}
+		}
+	}
 }
