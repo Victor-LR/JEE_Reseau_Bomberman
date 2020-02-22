@@ -15,7 +15,8 @@
 	<p>Nombre de parties jouées : </p></br>
 	<p>Victoire / Défaites : </p></br>
 	</fieldset>
-	<input type=button onclick=window.location.href='Suppression'; value="Suppresion du compte" />
+	<input type=button onclick=window.location.href='Suppression'; value="Suppression du compte" />
 	<input type=button onclick=window.location.href='Deconnexion'; value="Déconnexion" />
+		<input type=button onclick=window.location.href='ModificationUtilisateur'; value="Modification du profil" />
 </body>
 </html>

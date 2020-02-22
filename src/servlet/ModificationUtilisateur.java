@@ -17,12 +17,11 @@ import javax.servlet.http.HttpSession;
 import beans.Utilisateur;
 
 /**
- * Servlet implementation class CreationUtilisateur
+ * Servlet implementation class ModificationUtilisateur
  */
-@WebServlet("/CreationUtilisateur")
-public class CreationUtilisateur extends HttpServlet {
+@WebServlet("/ModificationUtilisateur")
+public class ModificationUtilisateur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
 	public static final String CHAMP_NOM = "nomUtilisateur";
 	public static final String CHAMP_PRENOM = "prenomUtilisateur";
 	public static final String CHAMP_MAIL = "emailUtilisateur";
@@ -33,7 +32,7 @@ public class CreationUtilisateur extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public CreationUtilisateur() {
+	public ModificationUtilisateur() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -45,7 +44,8 @@ public class CreationUtilisateur extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		this.getServletContext().getRequestDispatcher("/creationUtilisateur.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/restreint/modificationUtilisateur.jsp").forward(request,
+				response);
 	}
 
 	/**
@@ -55,16 +55,20 @@ public class CreationUtilisateur extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		boolean erreur = false;
-		HttpSession session = request.getSession();
-
-		Integer id = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
 		String nom = request.getParameter(CHAMP_NOM);
 		String prenom = request.getParameter(CHAMP_PRENOM);
 		String mail = request.getParameter(CHAMP_MAIL);
 		String pseudo = request.getParameter(CHAMP_PSEUDO);
 		String mdp = request.getParameter(CHAMP_MDP);
 		String mdp2 = request.getParameter(CHAMP_MDP2);
+		boolean erreur = false;
+		HttpSession session = request.getSession();
+		Utilisateur util = (Utilisateur) session.getAttribute("utilisateur");
 		try {
 			valideNom(nom);
 		} catch (Exception e) {
@@ -104,11 +108,15 @@ public class CreationUtilisateur extends HttpServlet {
 		if (erreur) {
 			this.getServletContext().getRequestDispatcher("/creationUtilisateur.jsp").forward(request, response);
 		} else {
-			id = executerInsert(request);
-			Utilisateur util = new Utilisateur(nom, prenom, pseudo, mdp, mail, id);
-			request.setAttribute("succes", "Création réussie");
+			executerModif(request, util.getIdentifiant());
+			util.setEmail(mail);
+			util.setNom(nom);
+			util.setPrenom(prenom);
+			util.setPseudo(pseudo);
+			util.setMdp(mdp);
 			session.setAttribute("utilisateur", util);
-			this.getServletContext().getRequestDispatcher("/restreint/creationReussie.jsp").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/restreint/ModificationReussie.jsp").forward(request,
+					response);
 		}
 	}
 
@@ -146,7 +154,7 @@ public class CreationUtilisateur extends HttpServlet {
 		}
 	}
 
-	public Integer executerInsert(HttpServletRequest request) {
+	public void executerModif(HttpServletRequest request, Integer id) {
 		/* Connexion à la base de données */
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -157,7 +165,6 @@ public class CreationUtilisateur extends HttpServlet {
 		String utilisateur = "root";
 		String motDePasse = "ce1mdpp";
 
-		Integer id = null;
 		Connection connexion = null;
 		PreparedStatement statement = null;
 		ResultSet resultat = null;
@@ -167,7 +174,7 @@ public class CreationUtilisateur extends HttpServlet {
 
 			/* Création de l'objet gérant les requêtes */
 			statement = connexion.prepareStatement(
-					"INSERT INTO Utilisateur (email, mot_de_passe, nom, prenom, pseudo, date_inscription) VALUES(?, ?, ?, ?, ?, NOW());");
+					"UPDATE Utilisateur SET email = ?, mot_de_passe = ?, nom = ?, prenom = ?, pseudo = ? WHERE id = ?");
 			String paramEmail = request.getParameter(CHAMP_MAIL);
 			String paramMdp = request.getParameter(CHAMP_MDP);
 			String paramNom = request.getParameter(CHAMP_NOM);
@@ -178,16 +185,8 @@ public class CreationUtilisateur extends HttpServlet {
 			statement.setString(3, paramNom);
 			statement.setString(4, paramPrenom);
 			statement.setString(5, paramPseudo);
+			statement.setInt(6, id);
 			statut = statement.executeUpdate();
-			/* Exécution d'une requête de lecture */
-			// resultat = statement.executeQuery();
-			statement = connexion.prepareStatement("SELECT * FROM Utilisateur WHERE pseudo = ?;");
-			statement.setString(1, paramPseudo);
-			/* Exécution d'une requête de lecture */
-			resultat = statement.executeQuery();
-			if (resultat.next()) {
-				id = resultat.getInt("id");
-			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} finally {
@@ -210,6 +209,6 @@ public class CreationUtilisateur extends HttpServlet {
 				}
 			}
 		}
-		return id;
 	}
+
 }

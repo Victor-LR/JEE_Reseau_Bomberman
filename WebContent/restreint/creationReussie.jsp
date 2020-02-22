@@ -10,8 +10,7 @@
 </head>
 <body>
 	<h1><c:out value="Votre compte a été bien crée ${sessionScope.utilisateur.pseudo }" /></h1>
-	<form action="AccesAccorde" method="get">
-		<input type="submit" value="Continuer"/>
-	</form>
+	<input type=button onclick=window.location.href='AccesAccorde'; value="Continuer" />
+
 </body>
 </html>

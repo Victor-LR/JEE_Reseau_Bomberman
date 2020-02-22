@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.Utilisateur;
 
@@ -64,13 +65,15 @@ public class Suppression extends HttpServlet {
 		Connection connexion = null;
 		PreparedStatement statement = null;
 		ResultSet resultat = null;
+		HttpSession session = request.getSession();
 		int statut = 0;
 		try {
 			connexion = DriverManager.getConnection(url, utilisateur, motDePasse);
 
 			/* Création de l'objet gérant les requêtes */
 			statement = connexion.prepareStatement("DELETE FROM Utilisateur WHERE id = ?;");
-			Utilisateur utilisateurSession = (Utilisateur) request.getSession().getAttribute("utilisateur");
+			Utilisateur utilisateurSession = (Utilisateur) session.getAttribute("utilisateur");
+			System.out.println("Session " + utilisateurSession.getIdentifiant());
 			statement.setInt(1, utilisateurSession.getIdentifiant());
 			statut = statement.executeUpdate();
 			/* Exécution d'une requête de lecture */

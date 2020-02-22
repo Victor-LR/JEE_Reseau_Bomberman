@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class AccesAccorde
@@ -31,11 +30,8 @@ public class AccesAccorde extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession();
-		if (session == null)
-			this.getServletContext().getRequestDispatcher("/deconnexion.jsp").forward(request, response);
-		else
-			this.getServletContext().getRequestDispatcher("/WEB-INF/accueilUtilisateur.jsp").forward(request, response);
+
+		this.getServletContext().getRequestDispatcher("/restreint/accueilUtilisateur.jsp").forward(request, response);
 	}
 
 	/**

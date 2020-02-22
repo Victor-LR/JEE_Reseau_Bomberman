@@ -40,7 +40,6 @@ public class Connexion extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -80,7 +79,8 @@ public class Connexion extends HttpServlet {
 			this.getServletContext().getRequestDispatcher("/accueil.jsp").forward(request, response);
 		else {
 			session.setAttribute("utilisateur", util);
-			this.getServletContext().getRequestDispatcher("/WEB-INF/accueilUtilisateur.jsp").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/restreint/accueilUtilisateur.jsp").forward(request,
+					response);
 		}
 	}
 
