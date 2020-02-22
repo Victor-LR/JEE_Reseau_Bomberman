@@ -106,7 +106,8 @@ public class ModificationUtilisateur extends HttpServlet {
 			request.setAttribute("erreuremail", e.getMessage());
 		}
 		if (erreur) {
-			this.getServletContext().getRequestDispatcher("/creationUtilisateur.jsp").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/restreint/modificationUtilisateur.jsp").forward(request,
+					response);
 		} else {
 			executerModif(request, util.getIdentifiant());
 			util.setEmail(mail);
@@ -115,7 +116,7 @@ public class ModificationUtilisateur extends HttpServlet {
 			util.setPseudo(pseudo);
 			util.setMdp(mdp);
 			session.setAttribute("utilisateur", util);
-			this.getServletContext().getRequestDispatcher("/restreint/ModificationReussie.jsp").forward(request,
+			this.getServletContext().getRequestDispatcher("/restreint/modificationReussie.jsp").forward(request,
 					response);
 		}
 	}
