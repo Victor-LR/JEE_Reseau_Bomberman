@@ -22,7 +22,7 @@ public class MainServeurBomberman {
 					ServThread servT = new ServThread(ecoute);
 					servT.init();
 					chainerecue = servT.getChainerecue();
-					
+				
 				}
 				
 				} catch (IOException e) {

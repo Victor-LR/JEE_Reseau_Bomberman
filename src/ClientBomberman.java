@@ -50,6 +50,7 @@ public class ClientBomberman {
 			do {
 				
 				String MPD = Pseudo_mdp.get(VA.getIdentifiant());
+				System.out.println(MPD);
 				bonMdp =false;
 				if(MPD != null ) {
 					if(MPD.matches(VA.getMot_de_passe()))
@@ -57,6 +58,51 @@ public class ClientBomberman {
 				}
 				
 			} while(!Pseudo_mdp.containsKey(VA.getIdentifiant()) || !bonMdp);
+			
+			Socket socket;
+			BufferedReader entree;
+			PrintWriter sortie;
+			String serveur = "localhost";
+			int port = 3500;
+				
+			System.out.println("CLIENT");
+			//serveur = args[0];
+			//port = Integer.parseInt(args[1]);
+			System.out.println("Port "+ port+ " adresse "+serveur);
+			Scanner commande = new Scanner(System.in);
+			
+			try {
+				socket = new Socket(serveur,port);
+				sortie = new PrintWriter(socket.getOutputStream(), true);
+				entree = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				String chaine;
+				
+				VA.FermerFenetre();
+				ControleurBombermanGame CBG = new ControleurBombermanGame(false);
+				
+				while(true) {
+				
+//					chaine = commande.nextLine();
+					sortie.println("_");
+
+					if(!CBG.getJeu_bomberman().gameContinue()) {
+						sortie.println(CBG.getJeu_bomberman().getMessage_fin_partie());
+					}
+					
+//					if(chaine.equals("exit")) {
+//						sortie.println(chaine);
+//						socket.close();
+//						break;
+//					}
+//					else
+//						sortie.println(chaine);
+				}
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+				VA.FermerFenetre();
+			}
+			
 			
 			
 		} catch ( SQLException e ) {
@@ -73,49 +119,7 @@ public class ClientBomberman {
 		        }
 		}
 
-		Socket socket;
-		BufferedReader entree;
-		PrintWriter sortie;
-		String serveur = "localhost";
-		int port = 3500;
-			
-		System.out.println("CLIENT");
-		//serveur = args[0];
-		//port = Integer.parseInt(args[1]);
-		System.out.println("Port "+ port+ " adresse "+serveur);
-		Scanner commande = new Scanner(System.in);
-		
-		try {
-			socket = new Socket(serveur,port);
-			sortie = new PrintWriter(socket.getOutputStream(), true);
-			entree = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			String chaine;
-			
-			VA.FermerFenetre();
-			ControleurBombermanGame CBG = new ControleurBombermanGame(false);
-			
-			while(true) {
-			
-//				chaine = commande.nextLine();
-				sortie.println("_");
 
-				if(!CBG.getJeu_bomberman().gameContinue()) {
-					sortie.println(CBG.getJeu_bomberman().getMessage_fin_partie());
-				}
-				
-//				if(chaine.equals("exit")) {
-//					sortie.println(chaine);
-//					socket.close();
-//					break;
-//				}
-//				else
-//					sortie.println(chaine);
-			}
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-			VA.FermerFenetre();
-		}
 		
 
 	}
