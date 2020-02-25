@@ -60,6 +60,7 @@ public class BombermanGame extends Game implements Observable {
 		//Si le jeu ne contient plus qu'un seul agent qui est un bomberman -> Game Over
 		//Si le jeu ne contient plus de bombermans -> Game Over
 		
+		
 		if (agentList.size()==1 && agentList.get(0).getType()=='B')
 		{
 			message_fin_partie = "Plus d'ennemies !";
@@ -77,6 +78,8 @@ public class BombermanGame extends Game implements Observable {
 			}
 		}
 		return false;
+		
+		
 	}
 
 	@Override
@@ -185,8 +188,8 @@ public class BombermanGame extends Game implements Observable {
 	}
 
 	@Override
-	public void gameOver() {
-		
+	public synchronized void gameOver() {
+		this.notifyAll();
 		System.out.println(message_fin_partie);
 		System.out.println("Fin du jeu au tour : " + this.turn);
 		fin_partie = true;

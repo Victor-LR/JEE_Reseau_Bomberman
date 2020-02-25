@@ -3,11 +3,14 @@ package serveur;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+import game.BombermanGame;
+
 public class MainServeurBomberman {
 
 	public static void main(String[] args) {
 		int port = 3500;
 		ServerSocket ecoute;
+		BombermanGame game;
 		
 			try {
 				
@@ -22,7 +25,7 @@ public class MainServeurBomberman {
 					ServThread servT = new ServThread(ecoute);
 					servT.init();
 					chainerecue = servT.getChainerecue();
-				
+					
 				}
 				
 				} catch (IOException e) {

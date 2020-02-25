@@ -73,8 +73,8 @@ public class ViewAuthenticator {
 				mot_de_passe = mdp.getText().toString();
 				//mot_de_passe = mdp.getSelectedText().toString();
 				
-				System.out.println("Id :" + identifiant);
-				System.out.println("MDP :" + mot_de_passe);
+				//System.out.println("Id :" + identifiant);
+				//System.out.println("MDP :" + mot_de_passe);
 				
 				}
 			});

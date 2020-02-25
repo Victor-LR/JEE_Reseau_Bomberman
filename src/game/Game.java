@@ -27,7 +27,7 @@ public abstract class Game implements Runnable, Observable {
 		notifyObserver();
 	}
 	
-	
+
 	public void step(){
 		if(gameContinue() && turn < maxTurn) {
 			turn++;
@@ -87,6 +87,10 @@ public abstract class Game implements Runnable, Observable {
 
 	public void setMaxTurn(int maxTurn) {
 		this.maxTurn = maxTurn;
+	}
+
+	public boolean isRunning() {
+		return isRunning;
 	}
 
 	@Override

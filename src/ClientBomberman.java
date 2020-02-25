@@ -27,7 +27,6 @@ public class ClientBomberman {
 		try {
 		    connexion = DriverManager.getConnection( urlJDBC, utilisateurBdd, motDePasseBdd );
 		    
-		    /* Ici, nous placerons nos requêtes vers la BDD */
 		    Statement statement = connexion.createStatement();
 		    String pseudoBdd = null;
 		    String mdpBdd = null;
@@ -48,9 +47,8 @@ public class ClientBomberman {
 			
 			boolean bonMdp ;
 			do {
-				
-				String MPD = Pseudo_mdp.get(VA.getIdentifiant());
-				System.out.println(MPD);
+				String MPD = (String) Pseudo_mdp.get(VA.getIdentifiant());
+				System.out.print("");
 				bonMdp =false;
 				if(MPD != null ) {
 					if(MPD.matches(VA.getMot_de_passe()))
@@ -79,14 +77,21 @@ public class ClientBomberman {
 				
 				VA.FermerFenetre();
 				ControleurBombermanGame CBG = new ControleurBombermanGame(false);
+				int firstTime = 0;
 				
 				while(true) {
-				
+					
+					chaine = "";
 //					chaine = commande.nextLine();
-					sortie.println("_");
-
-					if(!CBG.getJeu_bomberman().gameContinue()) {
+//					sortie.println("_");
+					System.out.print("");
+					if(!CBG.getJeu_bomberman().isRunning() && CBG.getJeu_bomberman().getTurn() > 0 && !CBG.getJeu_bomberman().gameContinue() && firstTime == 0) {
+						//chaine = CBG.getJeu_bomberman().getMessage_fin_partie();
+						firstTime = 1;
 						sortie.println(CBG.getJeu_bomberman().getMessage_fin_partie());
+						sortie.println(pseudoBdd);
+						sortie.println(CBG.getJeu_bomberman().getPointsPartie());
+						System.out.println("TEST BOUCLE");
 					}
 					
 //					if(chaine.equals("exit")) {
@@ -114,8 +119,8 @@ public class ClientBomberman {
 		        try {
 		            /* Fermeture de la connexion */
 		            connexion.close();
-		        } catch ( SQLException ignore ) {
-		            /* Si une erreur survient lors de la fermeture, il suffit de l'ignorer. */
+		        } catch ( SQLException e ) {
+		        	
 		        }
 		}
 
