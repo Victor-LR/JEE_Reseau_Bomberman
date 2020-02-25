@@ -157,11 +157,6 @@ public class ModificationUtilisateur extends HttpServlet {
 
 	public void executerModif(HttpServletRequest request, Integer id) {
 		/* Connexion à la base de données */
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
 		String url = "jdbc:mysql://localhost:3306/bdd_bomberman";
 		String utilisateur = "root";
 		String motDePasse = "ce1mdpp";

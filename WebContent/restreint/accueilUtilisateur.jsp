@@ -12,8 +12,8 @@
 	<h1><c:out value="Bienvenue ${sessionScope.utilisateur.pseudo }" /></h1>
 	<fieldset>
 	<legend>Historique des parties</legend>
-	<p>Nombre de parties jouées : </p></br>
-	<p>Victoire / Défaites : </p></br>
+	<p>Nombre de parties jouées : <c:out value="${totalParties }" /></p></br>
+	<p>Victoire / Défaites : <c:out value="${ratioParties }"/></p></br>
 	</fieldset>
 	<input type=button onclick=window.location.href='Suppression'; value="Suppression du compte" />
 	<input type=button onclick=window.location.href='Deconnexion'; value="Déconnexion" />
