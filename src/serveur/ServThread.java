@@ -56,11 +56,9 @@ public class ServThread implements Runnable {
 			
 			chainerecue = entree.readLine();
 			
-//			if(!chainerecue.equals(""))
-//				System.out.println("     "+chainerecue);
 			
-			if(chainerecue.equals("Plus d'ennemies !") || chainerecue.equals("Plus de bomberman !")) {
-				System.out.println("TEST -> "+chainerecue);
+			if(chainerecue.equals("Plus d'ennemies !") || chainerecue.equals("Plus de bomberman !") || chainerecue.equals("Temps écoulé !")) {
+				System.out.println("Fin partie -> "+chainerecue);
 //				this.Suspendre = true;
 				
 				String resultat;
@@ -79,8 +77,8 @@ public class ServThread implements Runnable {
 					connexion = DriverManager.getConnection( urlJDBC, utilisateurBdd, motDePasseBdd );
 					 Statement statement = connexion.createStatement();
 					 
-//					int statut = statement.executeUpdate( "INSERT INTO Historique (pseudo_util, date_partie , score, resultat)"
-//							+ "VALUES ('"+pseudo+"', NOW(), "+score_int+", '"+resultat+"');" );
+					int statut = statement.executeUpdate( "INSERT INTO Historique (pseudo_util, date_partie , score, resultat)"
+							+ "VALUES ('"+pseudo+"', NOW(), "+score_int+", '"+resultat+"');" );
 					
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -108,9 +106,8 @@ public class ServThread implements Runnable {
 		}
 
 		
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			System.out.println("Déconnexion");
 		}
 		
 	}

@@ -67,6 +67,11 @@ public class BombermanGame extends Game implements Observable {
 			//System.out.println("Plus d'ennemies !");
 			return false;
 		}
+		
+		if (this.getTurn() >= this.getMaxTurn()) {
+			message_fin_partie = "Temps écoulé !";
+			return false;
+		}
 		for(int i = 0; i<agentList.size();i++) {
 			if (agentList.get(i).getType()=='B')
 				return true;
@@ -180,6 +185,7 @@ public class BombermanGame extends Game implements Observable {
 			}			
 		}
 		bombeTurn();
+		//System.out.println(this.getPointsPartie());
 	}
 
 	private int bombPoints(Agent_Bomberman agent) {
@@ -188,8 +194,7 @@ public class BombermanGame extends Game implements Observable {
 	}
 
 	@Override
-	public synchronized void gameOver() {
-		this.notifyAll();
+	public void gameOver() {
 		System.out.println(message_fin_partie);
 		System.out.println("Fin du jeu au tour : " + this.turn);
 		fin_partie = true;
@@ -270,7 +275,8 @@ public class BombermanGame extends Game implements Observable {
 			if(i < list_wall.length)
 				if(list_wall[i][y]) {
 					list_wall[i][y]=false;
-					nbPoints.add(10);
+					if(ControleurBombermanGame.isPerceptron())
+						nbPoints.add(10);
 					if (!ControleurBombermanGame.isPerceptron())
 						creerItem(i,y);
 					break;
@@ -303,7 +309,8 @@ public class BombermanGame extends Game implements Observable {
 			if(i < list_wall[x].length)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
-					nbPoints.add(10);
+					if(ControleurBombermanGame.isPerceptron())
+						nbPoints.add(10);
 					if (!ControleurBombermanGame.isPerceptron())
 						creerItem(x,i);
 					break;
@@ -336,7 +343,8 @@ public class BombermanGame extends Game implements Observable {
 			if(i > 0)
 				if(list_wall[i][y]){
 					list_wall[i][y]=false;
-					nbPoints.add(10);
+					if(ControleurBombermanGame.isPerceptron())
+						nbPoints.add(10);
 					if (!ControleurBombermanGame.isPerceptron())
 						creerItem(i,y);
 					break;
@@ -370,7 +378,8 @@ public class BombermanGame extends Game implements Observable {
 			if(i > 0)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
-					nbPoints.add(10);
+					if(ControleurBombermanGame.isPerceptron())
+						nbPoints.add(10);
 					if (!ControleurBombermanGame.isPerceptron())
 						creerItem(x,i);
 					break;
@@ -636,11 +645,11 @@ public class BombermanGame extends Game implements Observable {
 			break;
 		
 		case 'E':
-			points = 50;
+			points = 30;
 			break;
 			
 		case 'R':
-			points = 50;
+			points = 30;
 			break;
 			
 		case 'V':

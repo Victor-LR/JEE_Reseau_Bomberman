@@ -61,7 +61,7 @@ public class ClientBomberman {
 			BufferedReader entree;
 			PrintWriter sortie;
 			String serveur = "localhost";
-			int port = 3500;
+			int port = 35000;
 				
 			System.out.println("CLIENT");
 			//serveur = args[0];
@@ -77,7 +77,7 @@ public class ClientBomberman {
 				
 				VA.FermerFenetre();
 				ControleurBombermanGame CBG = new ControleurBombermanGame(false);
-				int firstTime = 0;
+				boolean firstTime = true;
 				
 				while(true) {
 					
@@ -85,14 +85,18 @@ public class ClientBomberman {
 //					chaine = commande.nextLine();
 //					sortie.println("_");
 					System.out.print("");
-					if(!CBG.getJeu_bomberman().isRunning() && CBG.getJeu_bomberman().getTurn() > 0 && !CBG.getJeu_bomberman().gameContinue() && firstTime == 0) {
-						//chaine = CBG.getJeu_bomberman().getMessage_fin_partie();
-						firstTime = 1;
-						sortie.println(CBG.getJeu_bomberman().getMessage_fin_partie());
-						sortie.println(pseudoBdd);
-						sortie.println(CBG.getJeu_bomberman().getPointsPartie());
-						System.out.println("TEST BOUCLE");
+					if(!CBG.getJeu_bomberman().isRunning() && CBG.getJeu_bomberman().getTurn() > 0 && !CBG.getJeu_bomberman().gameContinue()) {
+						if (firstTime) {
+							firstTime = false;
+							sortie.println(CBG.getJeu_bomberman().getMessage_fin_partie());
+							sortie.println(pseudoBdd);
+							sortie.println(CBG.getJeu_bomberman().getPointsPartie());
+							System.out.println("TEST BOUCLE");
+						}
+					}else {
+						firstTime = true;
 					}
+						
 					
 //					if(chaine.equals("exit")) {
 //						sortie.println(chaine);
