@@ -17,6 +17,10 @@
 		<filter-name>RestrictionFilter</filter-name>
 		<url-pattern>/AccesAccorde</url-pattern>
 	</filter-mapping>
+	<filter-mapping>
+		<filter-name>RestrictionFilter</filter-name>
+		<url-pattern>/HistoriqueUtilisateur</url-pattern>
+	</filter-mapping>
 
     <servlet>
         <servlet-name>AccesAccorde</servlet-name>

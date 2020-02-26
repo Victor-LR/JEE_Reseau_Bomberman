@@ -10,6 +10,7 @@
 <title>Modification utilisateur</title>
 </head>
 <body>
+	<h1>Modification de l'utilisateur</h1>
 	<fieldset>
             <legend>Informations à modifier</legend>
             

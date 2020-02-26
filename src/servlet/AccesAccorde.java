@@ -42,7 +42,8 @@ public class AccesAccorde extends HttpServlet {
 		String url = "jdbc:mysql://localhost:3306/bdd_bomberman";
 		String utilisateur = "root";
 		String motDePasse = "ce1mdpp";
-		int total, victoire, defaite;
+		int total;
+		float victoire, defaite;
 		float ratio = 0;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -54,12 +55,12 @@ public class AccesAccorde extends HttpServlet {
 		defaite = executerCountResultat(session, url, utilisateur, motDePasse, "D");
 		boolean b = (victoire + defaite) != 0;
 		if ((victoire + defaite) != 0) {
-			ratio = (float) victoire / (victoire + defaite);
-			System.out.println("Good" + ratio);
+			ratio = victoire / (victoire + defaite) * 100;
 		}
-		System.out.println("TEST " + victoire + "  " + defaite + b + " " + ratio);
 		request.setAttribute("totalParties", total);
 		request.setAttribute("ratioParties", ratio);
+		request.setAttribute("victoireParties", (int) victoire);
+		request.setAttribute("defaiteParties", (int) defaite);
 		this.getServletContext().getRequestDispatcher("/restreint/accueilUtilisateur.jsp").forward(request, response);
 	}
 
@@ -158,7 +159,6 @@ public class AccesAccorde extends HttpServlet {
 				}
 			}
 		}
-		System.out.println(count);
 		return count;
 	}
 }

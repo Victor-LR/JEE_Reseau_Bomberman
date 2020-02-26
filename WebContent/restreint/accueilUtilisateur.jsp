@@ -13,10 +13,11 @@
 	<fieldset>
 	<legend>Historique des parties</legend>
 	<p>Nombre de parties jouées : <c:out value="${totalParties }" /></p></br>
-	<p>Victoire / Défaites : <c:out value="${ratioParties }"/></p></br>
+	<p>Victoire / Défaites : <c:out value="${victoireParties }/${defaiteParties } (${ratioParties })"/></p></br>
 	</fieldset>
-	<input type=button onclick=window.location.href='Suppression'; value="Suppression du compte" />
+	<input type=button onclick=window.location.href='ModificationUtilisateur'; value="Modification du profil" />
+	<input type=button onclick=window.location.href='HistoriqueUtilisateur'; value="Historique des parties" />
 	<input type=button onclick=window.location.href='Deconnexion'; value="Déconnexion" />
-		<input type=button onclick=window.location.href='ModificationUtilisateur'; value="Modification du profil" />
+	<input type=button onclick=window.location.href='Suppression'; value="Suppression du compte" />
 </body>
 </html>
