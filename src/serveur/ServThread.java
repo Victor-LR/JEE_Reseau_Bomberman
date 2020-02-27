@@ -52,41 +52,40 @@ public class ServThread implements Runnable {
 
 				chainerecue = entree.readLine();
 
-				if (chainerecue.equals("Plus d'ennemies !") || chainerecue.equals("Plus de bomberman !")
-						|| chainerecue.equals("Temps écoulé !")) {
+				if (chainerecue.equals("Plus d'ennemies !") || chainerecue.equals("Plus de bomberman !") || chainerecue.equals("Temps écoulé !")) {
 					System.out.println("Fin partie -> " + chainerecue);
-//				this.Suspendre = true;
-				
-				String resultat;
-				if(chainerecue.equals("Plus d'ennemies !"))
-					resultat="V";
-				else
-					resultat="D";
-				
-				String pseudo = entree.readLine();
-				String score = entree.readLine();
-				int score_int = Integer.parseInt(score);
+	//				this.Suspendre = true;
 					
-				System.out.println(pseudo+"  "+resultat+"   "+score_int);
-				
-				try {
-					connexion = DriverManager.getConnection( Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
-					 Statement statement = connexion.createStatement();
-					 
-					int statut = statement.executeUpdate( "INSERT INTO Historique (pseudo_util, date_partie , score, resultat)"
-							+ "VALUES ('"+pseudo+"', NOW(), "+score_int+", '"+resultat+"');" );
+					String resultat;
+					if(chainerecue.equals("Plus d'ennemies !"))
+						resultat="V";
+					else
+						resultat="D";
 					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-				    if ( connexion != null )
-				        try {
-				            connexion.close();
-				        } catch ( SQLException ignore ) {
-
-
-							}
-					}
+					String pseudo = entree.readLine();
+					String score = entree.readLine();
+					int score_int = Integer.parseInt(score);
+						
+					System.out.println(pseudo+"  "+resultat+"   "+score_int);
+					
+					try {
+						connexion = DriverManager.getConnection( Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
+						 Statement statement = connexion.createStatement();
+						 
+						int statut = statement.executeUpdate( "INSERT INTO Historique (pseudo_util, date_partie , score, resultat)"
+								+ "VALUES ('"+pseudo+"', NOW(), "+score_int+", '"+resultat+"');" );
+						
+					} catch (SQLException e) {
+						e.printStackTrace();
+					} finally {
+					    if ( connexion != null )
+					        try {
+					            connexion.close();
+					        } catch ( SQLException ignore ) {
+	
+	
+								}
+						}
 				}
 
 				if (chainerecue.equals("exit")) {

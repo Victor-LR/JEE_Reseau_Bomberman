@@ -35,7 +35,7 @@ public class PanelStrategie extends JPanel {
 			for(int j = 0; j< files.length; j++) {
 				String nom_strat = files[j].getName();
 
-				if (nom_strat != "Comportement.java")
+				if (nom_strat.matches("Strategie_Joueur1.java"))
 					list_strat.addItem(nom_strat.substring(10));
 			}
 			list_strat.setSelectedIndex(0);

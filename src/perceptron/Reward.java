@@ -21,7 +21,7 @@ public class Reward {
 
 		
 		for (int i = 0 ; i < nb_simulations ; i++){
-			ControleurBombermanGame Control_Percep = new ControleurBombermanGame(true);
+			ControleurBombermanGame Control_Percep = new ControleurBombermanGame(true,"");
 			Control_Percep.setMap(map);
 			Control_Percep.getJeu_bomberman().setListAgentsStart(Control_Percep.getMap().getStart_agents());
 			
@@ -69,7 +69,7 @@ public class Reward {
 	
 	public void vizualize(int max_turn, Comportement strategie, Map map, int time_wait) {
 		
-		ControleurBombermanGame Control_Percep = new ControleurBombermanGame(false);
+		ControleurBombermanGame Control_Percep = new ControleurBombermanGame(false,"");
 		Control_Percep.setMap(map);
 		
 		Control_Percep.getJeu_bomberman().setListAgentsStart(Control_Percep.getMap().getStart_agents());

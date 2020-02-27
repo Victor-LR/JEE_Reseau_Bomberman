@@ -26,7 +26,7 @@ public class ViewBombermanGame implements Observer {
 	private InterfaceController controleur;
 	private boolean[][] list_breakable_walls;
 
-	public ViewBombermanGame(InterfaceController control, BombermanGame Jeu, String filename) {
+	public ViewBombermanGame(InterfaceController control, BombermanGame Jeu, String filename,String pseudo) {
 		this.controleur = control;
 		Jeu.registerObserver(this);
 		jframe_bbm = new JFrame();
@@ -45,7 +45,7 @@ public class ViewBombermanGame implements Observer {
 		Plateau_jeu.addKeyListener(Jeu.getKey_1());
 		Plateau_jeu.addKeyListener(Jeu.getKey_2());
 		
-		jframe_bbm.setTitle("Game");
+		jframe_bbm.setTitle("BombermanGame - "+pseudo);
 		jframe_bbm.setSize(new Dimension(map_jeu.getSizeX()*45, (map_jeu.getSizeY()*45+150)));
 		Dimension windowSize = jframe_bbm.getSize();
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();

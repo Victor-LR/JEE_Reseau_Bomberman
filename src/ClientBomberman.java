@@ -56,6 +56,7 @@ public class ClientBomberman {
 
 			} while (!Pseudo_mdp.containsKey(VA.getIdentifiant()) || !bonMdp);
 
+			pseudoBdd = VA.getIdentifiant();
 			Socket socket;
 			BufferedReader entree;
 			PrintWriter sortie;
@@ -75,7 +76,7 @@ public class ClientBomberman {
 				String chaine;
 
 				VA.FermerFenetre();
-				ControleurBombermanGame CBG = new ControleurBombermanGame(false);
+				ControleurBombermanGame CBG = new ControleurBombermanGame(false,pseudoBdd);
 				boolean firstTime = true;
 
 				while (true) {
@@ -91,7 +92,6 @@ public class ClientBomberman {
 							sortie.println(CBG.getJeu_bomberman().getMessage_fin_partie());
 							sortie.println(pseudoBdd);
 							sortie.println(CBG.getJeu_bomberman().getPointsPartie());
-							System.out.println("TEST BOUCLE");
 						}
 					} else {
 						firstTime = true;
