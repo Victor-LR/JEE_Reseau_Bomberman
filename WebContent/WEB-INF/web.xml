@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+	<filter>
+		<filter-name>RestrictionFilter</filter-name>
+		<filter-class>filter.RestrictionFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>RestrictionFilter</filter-name>
+		<url-pattern>/AccesAccorde</url-pattern>
+	</filter-mapping>
+		<filter-mapping>
+		<filter-name>RestrictionFilter</filter-name>
+		<url-pattern>/ModificationUtilisateur</url-pattern>
+	</filter-mapping>
+		<filter-mapping>
+		<filter-name>RestrictionFilter</filter-name>
+		<url-pattern>/AccesAccorde</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>RestrictionFilter</filter-name>
+		<url-pattern>/HistoriqueUtilisateur</url-pattern>
+	</filter-mapping>
+
+    <servlet>
+        <servlet-name>AccesAccorde</servlet-name>
+        <servlet-class>servlet.AccesAccorde</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Accueil</servlet-name>
+    	<servlet-class>servlet.Accueil</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Connexion</servlet-name>
+    	<servlet-class>servlet.Connexion</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>CreationUtilisateur</servlet-name>
+    	<servlet-class>servlet.CreationUtilisateur</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>Deconnexion</servlet-name>
+    	<servlet-class>servlet.Deconnexion</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>ModificationUtilisateur</servlet-name>
+    	<servlet-class>servlet.ModificationUtilisateur</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>Suppression</servlet-name>
+    	<servlet-class>servlet.Suppression</servlet-class>
+    </servlet>    
+
+</web-app>

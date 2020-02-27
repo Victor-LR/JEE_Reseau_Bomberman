@@ -1,7 +1,6 @@
 package beans;
 
 public class Utilisateur {
-	static public int id = 0;
 	private Integer identifiant;
 	private String nom;
 	private String prenom;
@@ -9,14 +8,13 @@ public class Utilisateur {
 	private String mdp;
 	private String email;
 
-	public Utilisateur(String nom, String prenom, String pseudo, String mdp, String email) {
+	public Utilisateur(String nom, String prenom, String pseudo, String mdp, String email, Integer id) {
 		this.setNom(nom);
 		this.setPrenom(prenom);
 		this.setPseudo(pseudo);
 		this.setMdp(mdp);
 		this.setEmail(email);
 		this.identifiant = id;
-		id++;
 	}
 
 	public Integer getIdentifiant() {

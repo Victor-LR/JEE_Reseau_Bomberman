@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <link type="text/css" rel="stylesheet" href="inc/style.css" />
 <meta charset="UTF-8">
 <title>Accueil</title>
@@ -11,7 +12,7 @@
 </head>
 
 	<header>
-	<h1>Bienvenue sur Bomberman</h1>
+	<h1>Bienvenue sur le site Bomberman</h1>
 	</header>
 	
 	
@@ -23,22 +24,20 @@
 		<input type="text" id="pseudoUtilisateur" name="pseudoUtilisateur" value='<c:out value="${param.pseudoUtilisateur }"></c:out>' size="20" maxlength="20" />
 		<span class="erreur">${erreurpseudo}</span>
 		
-		<br />
+		</br>
 		
 		<label for="mdpUtilisateur">Mot de passe </label>
 		<input type="password" id="mdpUtilisateur" name="mdpUtilisateur" value="" size="20" maxlength="20" />
 		<span class="erreur">${erreurmdp}</span>
 
-		<br />
+		</br>
 		
 		<input type="submit" value="Connexion"  />
-		<input type="reset" value="Reset" /> <br />
+		<input type="reset" value="Reset" /> </br>
 		
 	</form>
 	<a href="<c:url value="/CreationUtilisateur" />" >Créer un utilisateur</a></br>
 	</fieldset>
-	
-	<c:out value="${succes }"></c:out>
 
 </body>
 </html>
