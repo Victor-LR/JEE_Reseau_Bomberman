@@ -12,7 +12,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import servlet.Identifiant_BDD;
+import beans.Identifiant_BDD;
 import view.ViewAuthenticator;
 
 public class ServThread implements Runnable {

@@ -11,8 +11,8 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import beans.Identifiant_BDD;
 import controleur.ControleurBombermanGame;
-import servlet.Identifiant_BDD;
 import view.ViewAuthenticator;
 
 public class ClientBomberman {

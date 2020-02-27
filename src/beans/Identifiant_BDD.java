@@ -1,4 +1,4 @@
-package servlet;
+package beans;
 
 public class Identifiant_BDD {
 	
