@@ -39,9 +39,6 @@ public class AccesAccorde extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		String url = "jdbc:mysql://localhost:3306/bdd_bomberman";
-		String utilisateur = "root";
-		String motDePasse = "ce1mdpp";
 		int total;
 		float victoire, defaite;
 		float ratio = 0;
@@ -50,9 +47,9 @@ public class AccesAccorde extends HttpServlet {
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
-		total = executerCountTotal(session, url, utilisateur, motDePasse);
-		victoire = executerCountResultat(session, url, utilisateur, motDePasse, "V");
-		defaite = executerCountResultat(session, url, utilisateur, motDePasse, "D");
+		total = executerCountTotal(session, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
+		victoire = executerCountResultat(session, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd(), "V");
+		defaite = executerCountResultat(session, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd(), "D");
 		boolean b = (victoire + defaite) != 0;
 		if ((victoire + defaite) != 0) {
 			ratio = victoire / (victoire + defaite) * 100;

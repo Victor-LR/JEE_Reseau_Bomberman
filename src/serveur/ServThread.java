@@ -12,6 +12,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import servlet.Identifiant_BDD;
+import view.ViewAuthenticator;
+
 public class ServThread implements Runnable {
 
 	protected boolean isRunning = true;
@@ -23,11 +26,7 @@ public class ServThread implements Runnable {
 	private ObjectInputStream entree_obj;
 	private String chainerecue = "";
 //	private boolean Suspendre;
-
-	final static String urlJDBC = "jdbc:mysql://localhost:3306/bdd_bomberman";
-	final static String utilisateurBdd = "root";
-	final static String motDePasseBdd = "ce1mdpp";
-
+	
 	Connection connexion = null;
 
 	public ServThread(ServerSocket ecoute) {
@@ -57,6 +56,33 @@ public class ServThread implements Runnable {
 						|| chainerecue.equals("Temps écoulé !")) {
 					System.out.println("Fin partie -> " + chainerecue);
 //				this.Suspendre = true;
+				
+				String resultat;
+				if(chainerecue.equals("Plus d'ennemies !"))
+					resultat="V";
+				else
+					resultat="D";
+				
+				String pseudo = entree.readLine();
+				String score = entree.readLine();
+				int score_int = Integer.parseInt(score);
+					
+				System.out.println(pseudo+"  "+resultat+"   "+score_int);
+				
+				try {
+					connexion = DriverManager.getConnection( Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
+					 Statement statement = connexion.createStatement();
+					 
+					int statut = statement.executeUpdate( "INSERT INTO Historique (pseudo_util, date_partie , score, resultat)"
+							+ "VALUES ('"+pseudo+"', NOW(), "+score_int+", '"+resultat+"');" );
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+				    if ( connexion != null )
+				        try {
+				            connexion.close();
+				        } catch ( SQLException ignore ) {
 
 					String resultat;
 					if (chainerecue.equals("Plus d'ennemies !"))

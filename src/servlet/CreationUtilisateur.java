@@ -153,9 +153,6 @@ public class CreationUtilisateur extends HttpServlet {
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
-		String url = "jdbc:mysql://localhost:3306/bdd_bomberman";
-		String utilisateur = "root";
-		String motDePasse = "ce1mdpp";
 
 		Integer id = null;
 		Connection connexion = null;
@@ -163,7 +160,7 @@ public class CreationUtilisateur extends HttpServlet {
 		ResultSet resultat = null;
 		int statut = 0;
 		try {
-			connexion = DriverManager.getConnection(url, utilisateur, motDePasse);
+			connexion = DriverManager.getConnection(Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
 
 			/* Création de l'objet gérant les requêtes */
 			statement = connexion.prepareStatement(

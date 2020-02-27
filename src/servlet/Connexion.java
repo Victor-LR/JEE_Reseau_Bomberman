@@ -54,9 +54,6 @@ public class Connexion extends HttpServlet {
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
-		String urlJDBC = "jdbc:mysql://localhost:3306/bdd_bomberman";
-		String utilisateurBdd = "root";
-		String motDePasseBdd = "ce1mdpp";
 
 		Utilisateur util = null;
 		String pseudo = request.getParameter(CHAMP_PSEUDO);
@@ -64,13 +61,13 @@ public class Connexion extends HttpServlet {
 		HttpSession session = request.getSession();
 		boolean erreur = false;
 		try {
-			validePseudo(request, pseudo, urlJDBC, utilisateurBdd, motDePasseBdd);
+			validePseudo(request, pseudo, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
 		} catch (Exception e) {
 			erreur = true;
 			request.setAttribute("erreurpseudo", e.getMessage());
 		}
 		try {
-			util = valideMdp(request, urlJDBC, utilisateurBdd, motDePasseBdd);
+			util = valideMdp(request, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
 		} catch (Exception e) {
 			erreur = true;
 			request.setAttribute("erreurmdp", e.getMessage());
