@@ -3,11 +3,14 @@ package serveur;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+import game.BombermanGame;
+
 public class MainServeurBomberman {
 
 	public static void main(String[] args) {
-		int port = 3500;
+		int port = 35000;
 		ServerSocket ecoute;
+		BombermanGame game;
 		
 			try {
 				
@@ -26,7 +29,7 @@ public class MainServeurBomberman {
 				}
 				
 				} catch (IOException e) {
-					
+					e.printStackTrace();
 				}
 
 
