@@ -84,33 +84,6 @@ public class ServThread implements Runnable {
 				            connexion.close();
 				        } catch ( SQLException ignore ) {
 
-					String resultat;
-					if (chainerecue.equals("Plus d'ennemies !"))
-						resultat = "V";
-					else
-						resultat = "D";
-
-					String pseudo = entree.readLine();
-					String score = entree.readLine();
-					int score_int = Integer.parseInt(score);
-
-					System.out.println(pseudo + "  " + resultat + "   " + score_int);
-
-					try {
-						connexion = DriverManager.getConnection(urlJDBC, utilisateurBdd, motDePasseBdd);
-						Statement statement = connexion.createStatement();
-
-						int statut = statement
-								.executeUpdate("INSERT INTO Historique (pseudo_util, date_partie , score, resultat)"
-										+ "VALUES ('" + pseudo + "', NOW(), " + score_int + ", '" + resultat + "');");
-
-					} catch (SQLException e) {
-						e.printStackTrace();
-					} finally {
-						if (connexion != null)
-							try {
-								connexion.close();
-							} catch (SQLException ignore) {
 
 							}
 					}

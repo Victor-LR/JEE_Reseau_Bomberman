@@ -32,14 +32,6 @@ public class ClientBomberman {
 		    HashMap<String,String> Pseudo_mdp = new HashMap();
 		    
 		    System.out.println(connexion.isClosed());
-		    	
-
-			Statement statement = connexion.createStatement();
-			String pseudoBdd = null;
-			String mdpBdd = null;
-			HashMap<String, String> Pseudo_mdp = new HashMap();
-
-			System.out.println(connexion.isClosed());
 
 			ResultSet resultat = statement.executeQuery("SELECT pseudo, mot_de_passe FROM Utilisateur ");
 			// + " WHERE (pseudo = \""+VA.getIdentifiant()+"\") & (mot_de_passe =
