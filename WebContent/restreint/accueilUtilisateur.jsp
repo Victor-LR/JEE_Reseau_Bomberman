@@ -9,12 +9,14 @@
 <title>Accueil utilisateur</title>
 </head>
 <body>
-	<h1><c:out value="Bienvenue ${sessionScope.utilisateur.pseudo }" /></h1>
+	<h1><c:out value="Bienvenue ${sessionScope.utilisateur.pseudo }" /> <img src="img/B10.png"/></h1>
 	<fieldset>
 	<legend>Historique des parties</legend>
 	<p>Nombre de parties jouées : <c:out value="${totalParties }" /></p></br>
 	<p>Victoire / Défaites : <c:out value="${victoireParties }/${defaiteParties } (${ratioParties })"/></p></br>
 	</fieldset>
+	<c:import url="/ClassementServl"></c:import>
+	
 	<input type=button onclick=window.location.href='ModificationUtilisateur'; value="Modification du profil" />
 	<input type=button onclick=window.location.href='HistoriqueUtilisateur'; value="Historique des parties" />
 	<input type=button onclick=window.location.href='Deconnexion'; value="Déconnexion" />
