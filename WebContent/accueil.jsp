@@ -37,7 +37,7 @@
 		
 	</form>
 	<a href="<c:url value="/CreationUtilisateur" />" >Créer un utilisateur</a></br>
-	</fieldset>
-
+</fieldset>
+<c:import url="/classement.jsp"></c:import>
 </body>
 </html>
