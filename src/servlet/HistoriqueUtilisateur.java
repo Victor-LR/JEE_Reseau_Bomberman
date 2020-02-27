@@ -41,16 +41,13 @@ public class HistoriqueUtilisateur extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		String url = "jdbc:mysql://localhost:3306/bdd_bomberman";
-		String utilisateur = "root";
-		String motDePasse = "ce1mdpp";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
 		ArrayList<Partie> listeParties = new ArrayList<>();
-		listeParties = executerSelectHistorique(session, url, utilisateur, motDePasse);
+		listeParties = executerSelectHistorique(session, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
 		request.setAttribute("listeParties", listeParties);
 		this.getServletContext().getRequestDispatcher("/restreint/historiqueUtilisateur.jsp").forward(request,
 				response);

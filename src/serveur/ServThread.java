@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import servlet.Identifiant_BDD;
 import view.ViewAuthenticator;
 
 public class ServThread implements Runnable {
@@ -25,10 +26,6 @@ public class ServThread implements Runnable {
 	private ObjectInputStream entree_obj;
 	private String chainerecue = "";
 //	private boolean Suspendre;
-	
-	final static String urlJDBC = "jdbc:mysql://localhost:3306/bdd_bomberman";
-	final static String utilisateurBdd = "root";
-	final static String motDePasseBdd = "mysql";
 	
 	Connection connexion = null;
 	
@@ -74,7 +71,7 @@ public class ServThread implements Runnable {
 				System.out.println(pseudo+"  "+resultat+"   "+score_int);
 				
 				try {
-					connexion = DriverManager.getConnection( urlJDBC, utilisateurBdd, motDePasseBdd );
+					connexion = DriverManager.getConnection( Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
 					 Statement statement = connexion.createStatement();
 					 
 					int statut = statement.executeUpdate( "INSERT INTO Historique (pseudo_util, date_partie , score, resultat)"

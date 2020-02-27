@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import controleur.ControleurBombermanGame;
+import servlet.Identifiant_BDD;
 import view.ViewAuthenticator;
 
 public class ClientBomberman {
@@ -19,13 +20,11 @@ public class ClientBomberman {
 	public static void main(String[] args) {
 		
 		ViewAuthenticator VA = new ViewAuthenticator();
-		String urlJDBC = "jdbc:mysql://localhost:3306/bdd_bomberman";
-		String utilisateurBdd = "root";
-		String motDePasseBdd = "mysql";
+	//	Identifiant_BDD ID_BDD = new Identifiant_BDD();
 		
 		Connection connexion = null;
 		try {
-		    connexion = DriverManager.getConnection( urlJDBC, utilisateurBdd, motDePasseBdd );
+		    connexion = DriverManager.getConnection( Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd() );
 		    
 		    Statement statement = connexion.createStatement();
 		    String pseudoBdd = null;
