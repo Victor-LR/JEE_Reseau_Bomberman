@@ -100,11 +100,13 @@ public class ViewCommand implements Observer{
 		
 		RunChoice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evenement) {
+
 				controller.start();
 				StopChoice.setEnabled(true);
 				StepChoice.setEnabled(false);
 				InitChoice.setEnabled(false);
 				RunChoice.setEnabled(false);
+				//notifyAll();
 				
 			}
 			});

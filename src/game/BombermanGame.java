@@ -41,6 +41,8 @@ public class BombermanGame extends Game implements Observable {
     
     private int PointsPartie = 0;
     
+    private String message_fin_partie;
+    private boolean fin_partie;
 
 	public BombermanGame() {
 		agentList = new ArrayList<Agent>();
@@ -49,6 +51,7 @@ public class BombermanGame extends Game implements Observable {
 		list_item = new ArrayList<InfoItem>();
 		key_1 = new Keys();
 		key_2 = new Keys_2();
+		fin_partie = false;
 		
     }
 
@@ -57,9 +60,16 @@ public class BombermanGame extends Game implements Observable {
 		//Si le jeu ne contient plus qu'un seul agent qui est un bomberman -> Game Over
 		//Si le jeu ne contient plus de bombermans -> Game Over
 		
+		
 		if (agentList.size()==1 && agentList.get(0).getType()=='B')
 		{
-			System.out.println("Plus d'ennemies !");
+			message_fin_partie = "Plus d'ennemies !";
+			//System.out.println("Plus d'ennemies !");
+			return false;
+		}
+		
+		if (this.getTurn() >= this.getMaxTurn()) {
+			message_fin_partie = "Temps écoulé !";
 			return false;
 		}
 		for(int i = 0; i<agentList.size();i++) {
@@ -67,11 +77,14 @@ public class BombermanGame extends Game implements Observable {
 				return true;
 			if (i==agentList.size()-1)
 			{
-				System.out.println("Plus de bomberman !");
+				message_fin_partie = "Plus de bomberman !";
+				//System.out.println("Plus de bomberman !");
 				return false;
 			}
 		}
 		return false;
+		
+		
 	}
 
 	@Override
@@ -172,6 +185,7 @@ public class BombermanGame extends Game implements Observable {
 			}			
 		}
 		bombeTurn();
+		//System.out.println(this.getPointsPartie());
 	}
 
 	private int bombPoints(Agent_Bomberman agent) {
@@ -181,7 +195,9 @@ public class BombermanGame extends Game implements Observable {
 
 	@Override
 	public void gameOver() {
+		System.out.println(message_fin_partie);
 		System.out.println("Fin du jeu au tour : " + this.turn);
+		fin_partie = true;
 	}
 	
 	public ArrayList<Agent> getAgentList() {
@@ -259,7 +275,8 @@ public class BombermanGame extends Game implements Observable {
 			if(i < list_wall.length)
 				if(list_wall[i][y]) {
 					list_wall[i][y]=false;
-					nbPoints.add(10);
+					if(ControleurBombermanGame.isPerceptron())
+						nbPoints.add(10);
 					if (!ControleurBombermanGame.isPerceptron())
 						creerItem(i,y);
 					break;
@@ -292,7 +309,8 @@ public class BombermanGame extends Game implements Observable {
 			if(i < list_wall[x].length)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
-					nbPoints.add(10);
+					if(ControleurBombermanGame.isPerceptron())
+						nbPoints.add(10);
 					if (!ControleurBombermanGame.isPerceptron())
 						creerItem(x,i);
 					break;
@@ -325,7 +343,8 @@ public class BombermanGame extends Game implements Observable {
 			if(i > 0)
 				if(list_wall[i][y]){
 					list_wall[i][y]=false;
-					nbPoints.add(10);
+					if(ControleurBombermanGame.isPerceptron())
+						nbPoints.add(10);
 					if (!ControleurBombermanGame.isPerceptron())
 						creerItem(i,y);
 					break;
@@ -359,7 +378,8 @@ public class BombermanGame extends Game implements Observable {
 			if(i > 0)
 				if(list_wall[x][i]){
 					list_wall[x][i]=false;
-					nbPoints.add(10);
+					if(ControleurBombermanGame.isPerceptron())
+						nbPoints.add(10);
 					if (!ControleurBombermanGame.isPerceptron())
 						creerItem(x,i);
 					break;
@@ -612,6 +632,10 @@ public class BombermanGame extends Game implements Observable {
 		this.nom_strats = nom_strats;
 	}
 
+	public String getMessage_fin_partie() {
+		return message_fin_partie;
+	}
+
 	//Ajoute les points en fonction de l'ennemi tué
 	public int addPoints(Agent ennemy) {
 		int points=0;
@@ -621,11 +645,11 @@ public class BombermanGame extends Game implements Observable {
 			break;
 		
 		case 'E':
-			points = 50;
+			points = 30;
 			break;
 			
 		case 'R':
-			points = 50;
+			points = 30;
 			break;
 			
 		case 'V':
@@ -651,6 +675,10 @@ public class BombermanGame extends Game implements Observable {
 		return PointsPartie;
 	}
 	
+	public boolean isFin_partie() {
+		return fin_partie;
+	}
+
 	//Enlève les vies et le rend invulnérable pendant 10 tours
 	//Renvoie un booleen pour tuer ou pas le bomberman
 	public boolean lifeRemaining(Agent_Bomberman agent) {

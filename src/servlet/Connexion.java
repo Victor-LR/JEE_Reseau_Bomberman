@@ -56,7 +56,7 @@ public class Connexion extends HttpServlet {
 		}
 		String urlJDBC = "jdbc:mysql://localhost:3306/bdd_bomberman";
 		String utilisateurBdd = "root";
-		String motDePasseBdd = "ce1mdpp";
+		String motDePasseBdd = "mysql";
 
 		Utilisateur util = null;
 		String pseudo = request.getParameter(CHAMP_PSEUDO);
