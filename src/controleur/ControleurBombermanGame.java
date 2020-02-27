@@ -12,15 +12,16 @@ public class ControleurBombermanGame implements InterfaceController {
 	ViewCommand vue_commande;
 	private static boolean perceptron = false;
 	private static Map map;
+	String pseudo = "";
 	
-	public ControleurBombermanGame(boolean perc) {
+	public ControleurBombermanGame(boolean perc, String p) {
 		ControleurBombermanGame.perceptron = perc;
 		this.Jeu_bomberman = new BombermanGame();
-
+		this.pseudo = p;
 		if (perceptron) {
 			Jeu_bomberman.setTime(1);
 		}else {
-			vue_jeu = new ViewBombermanGame(this,Jeu_bomberman,"layouts/niveau1.lay");
+			vue_jeu = new ViewBombermanGame(this,Jeu_bomberman,"layouts/niveau1.lay",this.pseudo);
 			vue_commande = new ViewCommand(this,Jeu_bomberman,vue_jeu.getJframe_bbm());
 			Jeu_bomberman.setListAgentsStart(map.getStart_agents());
 		}
@@ -63,7 +64,7 @@ public class ControleurBombermanGame implements InterfaceController {
 		stop();
 		vue_jeu.getJframe_bbm().dispose();
 		Jeu_bomberman = new BombermanGame();
-		vue_jeu = new ViewBombermanGame(this,Jeu_bomberman,"layouts/" + name);
+		vue_jeu = new ViewBombermanGame(this,Jeu_bomberman,"layouts/" + name,this.pseudo);
 		vue_commande = new ViewCommand(this,Jeu_bomberman,vue_jeu.getJframe_bbm());
 		Jeu_bomberman.setListAgentsStart(map.getStart_agents());
 	}

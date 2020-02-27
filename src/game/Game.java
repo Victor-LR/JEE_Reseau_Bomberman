@@ -35,7 +35,7 @@ public abstract class Game implements Runnable, Observable {
 		}else {
 			takeTurn();
 			takeTurn();
-//			takeTurn();
+			takeTurn();
 			isRunning = false;
 			gameOver();
 		}
