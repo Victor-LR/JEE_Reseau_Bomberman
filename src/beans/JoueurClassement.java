@@ -1,6 +1,8 @@
 package beans;
 
 public class JoueurClassement {
+	private float ratio;
+	private int nbDefaite;
 	private int nbVictoire;
 	private String pseudo;
 
@@ -23,5 +25,25 @@ public class JoueurClassement {
 
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
+	}
+
+	public float getRatio() {
+		return ratio;
+	}
+
+	public void setRatio() {
+		float victoire = nbVictoire;
+		float defaite = nbDefaite;
+		if ((victoire + defaite) != 0) {
+			ratio = victoire / (victoire + defaite) * 100;
+		}
+	}
+
+	public int getNbDefaite() {
+		return nbDefaite;
+	}
+
+	public void setNbDefaite(int nbDefaite) {
+		this.nbDefaite = nbDefaite;
 	}
 }

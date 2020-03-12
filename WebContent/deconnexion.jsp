@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link type="text/css" rel="stylesheet" href="inc/style.css" />
 <meta charset="UTF-8">
 <title>Déconnexion</title>
 </head>

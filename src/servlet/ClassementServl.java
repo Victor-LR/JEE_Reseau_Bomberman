@@ -35,6 +35,8 @@ public class ClassementServl extends HttpServlet {
 		Classement classement = new Classement();
 		request.setAttribute("classementJournalier", classement.getClassementJournalier());
 		request.setAttribute("classementMensuel", classement.getClassementMensuel());
+		request.setAttribute("classementJournalierRatio", classement.getClassementJournalierRatio());
+		request.setAttribute("classementMensuelRatio", classement.getClassementMensuelRatio());
 		this.getServletContext().getRequestDispatcher("/classement.jsp").forward(request, response);
 	}
 

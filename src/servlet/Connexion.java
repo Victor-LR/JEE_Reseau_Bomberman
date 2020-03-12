@@ -62,13 +62,15 @@ public class Connexion extends HttpServlet {
 		HttpSession session = request.getSession();
 		boolean erreur = false;
 		try {
-			validePseudo(request, pseudo, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
+			validePseudo(request, pseudo, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(),
+					Identifiant_BDD.getMotDePasseBdd());
 		} catch (Exception e) {
 			erreur = true;
 			request.setAttribute("erreurpseudo", e.getMessage());
 		}
 		try {
-			util = valideMdp(request, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
+			util = valideMdp(request, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(),
+					Identifiant_BDD.getMotDePasseBdd());
 		} catch (Exception e) {
 			erreur = true;
 			request.setAttribute("erreurmdp", e.getMessage());
@@ -185,7 +187,6 @@ public class Connexion extends HttpServlet {
 				}
 			}
 		}
-		System.out.println(mdp + "  " + mdpUtilisateur);
 		if (!mdp.matches(mdpUtilisateur))
 			throw new Exception("Mot de passe incorrect");
 		return util;
