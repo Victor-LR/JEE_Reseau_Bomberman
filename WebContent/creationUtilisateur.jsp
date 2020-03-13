@@ -45,7 +45,7 @@
             <br />
             
             <input type="submit" value="Valider"  />
-            
+			<input type=button onclick=window.location.href='Accueil'; value="Annuler" />
 			<br />
             
             </form>

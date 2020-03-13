@@ -48,7 +48,8 @@ public class HistoriqueUtilisateur extends HttpServlet {
 			System.out.println(e.getMessage());
 		}
 		ArrayList<Partie> listeParties = new ArrayList<>();
-		listeParties = executerSelectHistorique(session, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
+		listeParties = executerSelectHistorique(session, Identifiant_BDD.getUrljdbc(),
+				Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
 		request.setAttribute("listeParties", listeParties);
 		this.getServletContext().getRequestDispatcher("/restreint/historiqueUtilisateur.jsp").forward(request,
 				response);
@@ -108,7 +109,6 @@ public class HistoriqueUtilisateur extends HttpServlet {
 				}
 			}
 		}
-		System.out.println(count);
 		return listeParties;
 	}
 

@@ -11,8 +11,8 @@ import java.util.List;
 
 public class Classement {
 
-	private ArrayList<JoueurClassement> classementJournalier;
-	private ArrayList<JoueurClassement> classementMensuel;
+	private ArrayList<JoueurClassement> classementJournalierVictoire;
+	private ArrayList<JoueurClassement> classementMensuelVictoire;
 	private ArrayList<JoueurClassement> classementJournalierRatio;
 	private ArrayList<JoueurClassement> classementMensuelRatio;
 
@@ -22,16 +22,17 @@ public class Classement {
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
-		classementMensuel = executerCountV(Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(),
+		classementMensuelVictoire = executerCountV(Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(),
 				Identifiant_BDD.getMotDePasseBdd(), "MONTH(date_partie)=MONTH(NOW())");
-		classementJournalier = executerCountV(Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(),
+		classementJournalierVictoire = executerCountV(Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(),
 				Identifiant_BDD.getMotDePasseBdd(), "DAY(date_partie)=DAY(NOW())");
 		classementJournalierRatio = executerSetRatio(Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(),
-				Identifiant_BDD.getMotDePasseBdd(), "DAY(date_partie)=DAY(NOW())", classementJournalier);
+				Identifiant_BDD.getMotDePasseBdd(), "DAY(date_partie)=DAY(NOW())", classementJournalierVictoire);
 		classementMensuelRatio = executerSetRatio(Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(),
-				Identifiant_BDD.getMotDePasseBdd(), "MONTH(date_partie)=MONTH(NOW())", classementMensuel);
+				Identifiant_BDD.getMotDePasseBdd(), "MONTH(date_partie)=MONTH(NOW())", classementMensuelVictoire);
 	}
 
+	// Compte le nombre de victoire et tri depuis la base de donnée
 	public ArrayList<JoueurClassement> executerCountV(String url, String utilisateur, String motDePasse, String tri) {
 		/* Connexion à la base de données */
 
@@ -76,6 +77,8 @@ public class Classement {
 		return listeUtilisateur;
 	}
 
+	// Compte le nombre de défaite des joueurs, calcule le ratio et trie de la liste
+	// en fonction du ratio
 	public ArrayList<JoueurClassement> executerSetRatio(String url, String utilisateur, String motDePasse, String tri,
 			ArrayList<JoueurClassement> listeJoueur) {
 		/* Connexion à la base de données */
@@ -128,19 +131,19 @@ public class Classement {
 	}
 
 	public ArrayList<JoueurClassement> getClassementJournalier() {
-		return classementJournalier;
+		return classementJournalierVictoire;
 	}
 
 	public void setClassementJournalier(ArrayList<JoueurClassement> classementJournalier) {
-		this.classementJournalier = classementJournalier;
+		this.classementJournalierVictoire = classementJournalier;
 	}
 
 	public ArrayList<JoueurClassement> getClassementMensuel() {
-		return classementMensuel;
+		return classementMensuelVictoire;
 	}
 
 	public void setClassementMensuel(ArrayList<JoueurClassement> classementMensuel) {
-		this.classementMensuel = classementMensuel;
+		this.classementMensuelVictoire = classementMensuel;
 	}
 
 	public ArrayList<JoueurClassement> getClassementJournalierRatio() {
