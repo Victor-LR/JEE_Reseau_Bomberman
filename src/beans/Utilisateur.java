@@ -17,6 +17,10 @@ public class Utilisateur {
 		this.identifiant = id;
 	}
 
+	public void setIdentifiant(Integer identifiant) {
+		this.identifiant = identifiant;
+	}
+
 	public Integer getIdentifiant() {
 		return identifiant;
 	}

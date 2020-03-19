@@ -3,8 +3,8 @@ package beans;
 public class Identifiant_BDD {
 
 	private final static String urlJDBC = "jdbc:mysql://localhost:3306/bdd_bomberman";
-	private final static String utilisateurBdd = "root";
 	private final static String motDePasseBdd = "ce1mdpp";
+	private final static String utilisateurBdd = "root";
 
 	public static String getUrljdbc() {
 		return urlJDBC;

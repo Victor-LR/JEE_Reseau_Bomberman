@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
 
+	<listener>
+	    <listener-class>dao.InitialisationDAOFactory</listener-class>
+	</listener>
 	<filter>
 		<filter-name>RestrictionFilter</filter-name>
 		<filter-class>filter.RestrictionFilter</filter-class>

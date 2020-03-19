@@ -1,11 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.Identifiant_BDD;
 import beans.Utilisateur;
+import dao.DAOFactory;
+import dao.UtilisateurDao;
 
 /**
  * Servlet implementation class CreationUtilisateur
@@ -23,7 +19,7 @@ import beans.Utilisateur;
 @WebServlet("/CreationUtilisateur")
 public class CreationUtilisateur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private UtilisateurDao dao;
 	public static final String CHAMP_NOM = "nomUtilisateur";
 	public static final String CHAMP_PRENOM = "prenomUtilisateur";
 	public static final String CHAMP_MAIL = "emailUtilisateur";
@@ -37,6 +33,10 @@ public class CreationUtilisateur extends HttpServlet {
 	public CreationUtilisateur() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public void init() throws ServletException {
+		this.dao = ((DAOFactory) getServletContext().getAttribute("daofactory")).getUtilisateurDao();
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class CreationUtilisateur extends HttpServlet {
 		boolean erreur = false;
 		HttpSession session = request.getSession();
 
-		Integer id = null;
+		Integer id = 0;
 		String nom = request.getParameter(CHAMP_NOM);
 		String prenom = request.getParameter(CHAMP_PRENOM);
 		String mail = request.getParameter(CHAMP_MAIL);
@@ -105,8 +105,8 @@ public class CreationUtilisateur extends HttpServlet {
 		if (erreur) {
 			this.getServletContext().getRequestDispatcher("/creationUtilisateur.jsp").forward(request, response);
 		} else {
-			id = executerInsert(request);
 			Utilisateur util = new Utilisateur(nom, prenom, pseudo, mdp, mail, id);
+			dao.creer(util);
 			request.setAttribute("succes", "Création réussie");
 			session.setAttribute("utilisateur", util);
 			this.getServletContext().getRequestDispatcher("/restreint/creationReussie.jsp").forward(request, response);
@@ -145,69 +145,5 @@ public class CreationUtilisateur extends HttpServlet {
 		if (email.isEmpty()) {
 			throw (new Exception("Le champ doit être rempli !"));
 		}
-	}
-
-	public Integer executerInsert(HttpServletRequest request) {
-		/* Connexion à la base de données */
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-
-		Integer id = null;
-		Connection connexion = null;
-		PreparedStatement statement = null;
-		ResultSet resultat = null;
-		int statut = 0;
-		try {
-			connexion = DriverManager.getConnection(Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
-
-			/* Création de l'objet gérant les requêtes */
-			statement = connexion.prepareStatement(
-					"INSERT INTO Utilisateur (email, mot_de_passe, nom, prenom, pseudo, date_inscription) VALUES(?, ?, ?, ?, ?, NOW());");
-			String paramEmail = request.getParameter(CHAMP_MAIL);
-			String paramMdp = request.getParameter(CHAMP_MDP);
-			String paramNom = request.getParameter(CHAMP_NOM);
-			String paramPrenom = request.getParameter(CHAMP_PRENOM);
-			String paramPseudo = request.getParameter(CHAMP_PSEUDO);
-			statement.setString(1, paramEmail);
-			statement.setString(2, paramMdp);
-			statement.setString(3, paramNom);
-			statement.setString(4, paramPrenom);
-			statement.setString(5, paramPseudo);
-			statut = statement.executeUpdate();
-			/* Exécution d'une requête de lecture */
-			// resultat = statement.executeQuery();
-			statement = connexion.prepareStatement("SELECT * FROM Utilisateur WHERE pseudo = ?;");
-			statement.setString(1, paramPseudo);
-			/* Exécution d'une requête de lecture */
-			resultat = statement.executeQuery();
-			if (resultat.next()) {
-				id = resultat.getInt("id");
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		} finally {
-			if (resultat != null) {
-				try {
-					resultat.close();
-				} catch (SQLException ignore) {
-				}
-			}
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException ignore) {
-				}
-			}
-			if (connexion != null) {
-				try {
-					connexion.close();
-				} catch (SQLException ignore) {
-				}
-			}
-		}
-		return id;
 	}
 }

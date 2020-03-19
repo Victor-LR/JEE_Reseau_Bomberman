@@ -1,11 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.Identifiant_BDD;
 import beans.Utilisateur;
+import dao.DAOFactory;
+import dao.UtilisateurDao;
 
 /**
  * Servlet implementation class ModificationUtilisateur
@@ -29,6 +25,11 @@ public class ModificationUtilisateur extends HttpServlet {
 	public static final String CHAMP_PSEUDO = "pseudoUtilisateur";
 	public static final String CHAMP_MDP = "mdpUtilisateur";
 	public static final String CHAMP_MDP2 = "mdp2Utilisateur";
+	private UtilisateurDao dao;
+
+	public void init() throws ServletException {
+		this.dao = ((DAOFactory) getServletContext().getAttribute("daofactory")).getUtilisateurDao();
+	}
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -70,6 +71,7 @@ public class ModificationUtilisateur extends HttpServlet {
 		boolean erreur = false;
 		HttpSession session = request.getSession();
 		Utilisateur util = (Utilisateur) session.getAttribute("utilisateur");
+		String exPseudo = util.getPseudo();
 		try {
 			valideNom(nom);
 		} catch (Exception e) {
@@ -110,12 +112,12 @@ public class ModificationUtilisateur extends HttpServlet {
 			this.getServletContext().getRequestDispatcher("/restreint/modificationUtilisateur.jsp").forward(request,
 					response);
 		} else {
-			executerModif(request, util.getIdentifiant());
 			util.setEmail(mail);
 			util.setNom(nom);
 			util.setPrenom(prenom);
 			util.setPseudo(pseudo);
 			util.setMdp(mdp);
+			dao.modifier(util, exPseudo);
 			session.setAttribute("utilisateur", util);
 			this.getServletContext().getRequestDispatcher("/restreint/modificationReussie.jsp").forward(request,
 					response);
@@ -153,55 +155,6 @@ public class ModificationUtilisateur extends HttpServlet {
 	public void valideEmail(String email) throws Exception {
 		if (email.isEmpty()) {
 			throw (new Exception("Le champ doit être rempli !"));
-		}
-	}
-
-	public void executerModif(HttpServletRequest request, Integer id) {
-		/* Connexion à la base de données */
-
-		Connection connexion = null;
-		PreparedStatement statement = null;
-		ResultSet resultat = null;
-		int statut = 0;
-		try {
-			connexion = DriverManager.getConnection(Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
-
-			/* Création de l'objet gérant les requêtes */
-			statement = connexion.prepareStatement(
-					"UPDATE Utilisateur SET email = ?, mot_de_passe = ?, nom = ?, prenom = ?, pseudo = ? WHERE id = ?");
-			String paramEmail = request.getParameter(CHAMP_MAIL);
-			String paramMdp = request.getParameter(CHAMP_MDP);
-			String paramNom = request.getParameter(CHAMP_NOM);
-			String paramPrenom = request.getParameter(CHAMP_PRENOM);
-			String paramPseudo = request.getParameter(CHAMP_PSEUDO);
-			statement.setString(1, paramEmail);
-			statement.setString(2, paramMdp);
-			statement.setString(3, paramNom);
-			statement.setString(4, paramPrenom);
-			statement.setString(5, paramPseudo);
-			statement.setInt(6, id);
-			statut = statement.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		} finally {
-			if (resultat != null) {
-				try {
-					resultat.close();
-				} catch (SQLException ignore) {
-				}
-			}
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException ignore) {
-				}
-			}
-			if (connexion != null) {
-				try {
-					connexion.close();
-				} catch (SQLException ignore) {
-				}
-			}
 		}
 	}
 
