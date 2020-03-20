@@ -15,7 +15,6 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	private static final String SQL_SELECT_PSEUDO = "SELECT * FROM Utilisateur WHERE pseudo = ?;";
 	private static final String SQL_DELETE = "DELETE FROM Utilisateur WHERE id = ?;";
 	private static final String SQL_UPDATE_UTILISATEUR = "UPDATE Utilisateur SET email = ?, mot_de_passe = ?, nom = ?, prenom = ?, pseudo = ? WHERE id = ?";
-	private static final String SQL_UPDATE_HISTORIQUE = "UPDATE Historique SET pseudo_util = ? WHERE pseudo_util = ?";
 
 	public UtilisateurDaoImpl(DAOFactory dao) {
 		daoFactory = dao;
@@ -62,8 +61,6 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 			result = preparedStatement.executeQuery();
 			if (result.next()) {
 				util = map(result);
-			} else {
-				throw new Exception("Pseudo inconnu");
 			}
 		} catch (SQLException e) {
 			throw new Exception(e);
@@ -94,12 +91,11 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	}
 
 	@Override
-	public void modifier(Utilisateur utilisateur, String exPseudo) throws DAOException {
+	public void modifier(Utilisateur utilisateur) throws DAOException {
 		// TODO Auto-generated method stub
 		Connection connexion = null;
 		PreparedStatement preparedStatement = null;
 		PreparedStatement preparedStatement2 = null;
-		ResultSet result = null;
 		int statut = 0;
 		try {
 			connexion = daoFactory.getConnection();
@@ -110,16 +106,10 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 			if (statut == 0) {
 				throw new DAOException("Modification Utilisateur impossible");
 			}
-			preparedStatement2 = initialisationRequetePreparee(connexion, SQL_UPDATE_HISTORIQUE, false,
-					utilisateur.getPseudo(), exPseudo);
-			statut = preparedStatement2.executeUpdate();
-			if (statut == 0) {
-				throw new DAOException("Modification Historique impossible");
-			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		} finally {
-			fermeturesSilencieuses(result, preparedStatement, connexion);
+			fermeturesSilencieuses(preparedStatement, connexion);
 		}
 	}
 

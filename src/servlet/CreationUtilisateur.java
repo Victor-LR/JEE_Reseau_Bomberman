@@ -79,7 +79,8 @@ public class CreationUtilisateur extends HttpServlet {
 			request.setAttribute("erreurprenom", e.getMessage());
 		}
 		try {
-			validePseudo(pseudo);
+			Utilisateur u = dao.trouver(pseudo);
+			validePseudo(pseudo, u);
 		} catch (Exception e) {
 			erreur = true;
 			request.setAttribute("erreurpseudo", e.getMessage());
@@ -124,9 +125,11 @@ public class CreationUtilisateur extends HttpServlet {
 			throw (new Exception("Le prénom doit contenir 2 caractères !"));
 	}
 
-	public void validePseudo(String pseudo) throws Exception {
+	public void validePseudo(String pseudo, Utilisateur u) throws Exception {
 		if (pseudo.length() < 2)
 			throw (new Exception("Le pseudo doit contenir 2 caractères !"));
+		if (u != null && pseudo.matches(u.getPseudo()))
+			throw (new Exception("Le pseudo existe déjà"));
 	}
 
 	public void valideMdp(String mdp) throws Exception {

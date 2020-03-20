@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import beans.Classement;
+import dao.DAOFactory;
+import dao.HistoriqueDao;
 
 /**
  * Servlet implementation class ClassementServl
@@ -16,6 +18,13 @@ import beans.Classement;
 @WebServlet("/ClassementServl")
 public class ClassementServl extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private HistoriqueDao dao;
+	public static final String CHAMP_MOIS = "MONTH(date_partie)=MONTH(NOW())";
+	public static final String CHAMP_JOUR = "DAY(date_partie)=DAY(NOW())";
+
+	public void init() throws ServletException {
+		this.dao = ((DAOFactory) getServletContext().getAttribute("daofactory")).getHistoriqueDao();
+	}
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -33,6 +42,16 @@ public class ClassementServl extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Classement classement = new Classement();
+		try {
+			classement.setClassementJournalier(dao.trouverClassement(CHAMP_JOUR));
+			classement.setClassementMensuel(dao.trouverClassement(CHAMP_MOIS));
+			classement.setClassementJournalierRatio(dao.trouverRatio(classement.getClassementJournalier(), CHAMP_JOUR));
+			classement.setClassementMensuelRatio(dao.trouverRatio(classement.getClassementMensuel(), CHAMP_MOIS));
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		request.setAttribute("classementJournalier", classement.getClassementJournalier());
 		request.setAttribute("classementMensuel", classement.getClassementMensuel());
 		request.setAttribute("classementJournalierRatio", classement.getClassementJournalierRatio());

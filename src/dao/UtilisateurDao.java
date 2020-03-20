@@ -13,6 +13,6 @@ public interface UtilisateurDao {
 
 	// Modification des informations de l'Utilisateur dans la bdd Historique et
 	// Utilisateur
-	void modifier(Utilisateur utilisateur, String exPseudo) throws DAOException;
+	void modifier(Utilisateur utilisateur) throws DAOException;
 
 }

@@ -14,15 +14,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.Identifiant_BDD;
 import beans.Utilisateur;
+import dao.DAOFactory;
+import dao.HistoriqueDao;
 
 /**
  * Servlet implementation class AccesAccorde
  */
 @WebServlet("/AccesAccorde")
 public class AccesAccorde extends HttpServlet {
+
+	private HistoriqueDao dao;
 	private static final long serialVersionUID = 1L;
+
+	public void init() throws ServletException {
+		this.dao = ((DAOFactory) getServletContext().getAttribute("daofactory")).getHistoriqueDao();
+	}
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -40,17 +47,15 @@ public class AccesAccorde extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
+		Utilisateur util = (Utilisateur) session.getAttribute("utilisateur");
 		int total;
 		float victoire, defaite;
 		float ratio = 0;
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-		total = executerCountTotal(session, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
-		victoire = executerCountResultat(session, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd(), "V");
-		defaite = executerCountResultat(session, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd(), "D");
+		total = dao.totalPartie(util.getPseudo());
+//		total = executerCountTotal(session, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(),
+//				Identifiant_BDD.getMotDePasseBdd());
+		victoire = dao.countResultat(util.getPseudo(), "V");
+		defaite = dao.countResultat(util.getPseudo(), "D");
 		boolean b = (victoire + defaite) != 0;
 		if ((victoire + defaite) != 0) {
 			ratio = victoire / (victoire + defaite) * 100;

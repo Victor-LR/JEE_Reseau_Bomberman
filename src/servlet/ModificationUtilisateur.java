@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import beans.Utilisateur;
 import dao.DAOFactory;
+import dao.HistoriqueDao;
 import dao.UtilisateurDao;
 
 /**
@@ -25,10 +26,12 @@ public class ModificationUtilisateur extends HttpServlet {
 	public static final String CHAMP_PSEUDO = "pseudoUtilisateur";
 	public static final String CHAMP_MDP = "mdpUtilisateur";
 	public static final String CHAMP_MDP2 = "mdp2Utilisateur";
-	private UtilisateurDao dao;
+	private UtilisateurDao daoUtilisateur;
+	private HistoriqueDao daoHistorique;
 
 	public void init() throws ServletException {
-		this.dao = ((DAOFactory) getServletContext().getAttribute("daofactory")).getUtilisateurDao();
+		this.daoUtilisateur = ((DAOFactory) getServletContext().getAttribute("daofactory")).getUtilisateurDao();
+		this.daoHistorique = ((DAOFactory) getServletContext().getAttribute("daofactory")).getHistoriqueDao();
 	}
 
 	/**
@@ -85,7 +88,10 @@ public class ModificationUtilisateur extends HttpServlet {
 			request.setAttribute("erreurprenom", e.getMessage());
 		}
 		try {
-			validePseudo(pseudo);
+			if (!pseudo.matches(exPseudo)) {
+				Utilisateur u = daoUtilisateur.trouver(pseudo);
+				validePseudo(pseudo, u);
+			}
 		} catch (Exception e) {
 			erreur = true;
 			request.setAttribute("erreurpseudo", e.getMessage());
@@ -117,7 +123,8 @@ public class ModificationUtilisateur extends HttpServlet {
 			util.setPrenom(prenom);
 			util.setPseudo(pseudo);
 			util.setMdp(mdp);
-			dao.modifier(util, exPseudo);
+			daoUtilisateur.modifier(util);
+			daoHistorique.modifier(util, exPseudo);
 			session.setAttribute("utilisateur", util);
 			this.getServletContext().getRequestDispatcher("/restreint/modificationReussie.jsp").forward(request,
 					response);
@@ -135,9 +142,11 @@ public class ModificationUtilisateur extends HttpServlet {
 			throw (new Exception("Le prénom doit contenir 2 caractères !"));
 	}
 
-	public void validePseudo(String pseudo) throws Exception {
+	public void validePseudo(String pseudo, Utilisateur u) throws Exception {
 		if (pseudo.length() < 2)
 			throw (new Exception("Le pseudo doit contenir 2 caractères !"));
+		if (u != null && pseudo.matches(u.getPseudo()))
+			throw (new Exception("Le pseudo existe déjà"));
 	}
 
 	public void valideMdp(String mdp) throws Exception {
