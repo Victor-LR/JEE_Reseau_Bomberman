@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
@@ -12,7 +13,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import agents.AgentAction;
 import beans.Identifiant_BDD;
+import controleur.ControleurBombermanGame;
+import view.ViewAuthenticator;
 
 public class ServThread implements Runnable {
 
@@ -21,7 +25,7 @@ public class ServThread implements Runnable {
 
 	private Socket socket;
 	private BufferedReader entree;
-	private DataOutputStream sortie;
+	private PrintWriter sortie;
 	private ObjectInputStream entree_obj;
 	private String chainerecue = "";
 //	private boolean Suspendre;
@@ -41,69 +45,75 @@ public class ServThread implements Runnable {
 	@Override
 	public synchronized void run() {
 
-//		Suspendre = false;
 		try {
-
+			entree = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			sortie = new PrintWriter(socket.getOutputStream(), true);
+			
+			String pseudo = entree.readLine();
+			
+			ControleurBombermanGame CBG = new ControleurBombermanGame(false,chainerecue);
+			boolean FirstTime = true;
+			
+			
+			
 			while (isRunning) {
-
-				entree = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				sortie = new DataOutputStream(socket.getOutputStream());
-
-				chainerecue = entree.readLine();
-
-				if (chainerecue.equals("Plus d'ennemies !") || chainerecue.equals("Plus de bomberman !")
-						|| chainerecue.equals("Temps écoulé !")) {
-					System.out.println("Fin partie -> " + chainerecue);
-//					this.Suspendre = true;
-
-					String resultat;
-					if (chainerecue.equals("Plus d'ennemies !"))
-						resultat = "V";
-					else
-						resultat = "D";
-
-					String pseudo = entree.readLine();
-					String score = entree.readLine();
-					int score_int = Integer.parseInt(score);
-
-					System.out.println(pseudo + "  " + resultat + "   " + score_int);
-
-					try {
-						connexion = DriverManager.getConnection(Identifiant_BDD.getUrljdbc(),
-								Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
-						Statement statement = connexion.createStatement();
-
-						int statut = statement
-								.executeUpdate("INSERT INTO Historique (pseudo_util, date_partie , score, resultat)"
-										+ "VALUES ('" + pseudo + "', NOW(), " + score_int + ", '" + resultat + "');");
-
-					} catch (SQLException e) {
-						e.printStackTrace();
-					} finally {
-						if (connexion != null)
-							try {
-								connexion.close();
-							} catch (SQLException ignore) {
-
+					
+				//chainerecue = entree.readLine();
+				sortie.println("RIEN");
+				String RecupAction_string = entree.readLine();
+				AgentAction RecupAction = AgentAction.valueOf(RecupAction_string);
+				
+				CBG.getJeu_bomberman().setActionClient(RecupAction);
+				
+				if (CBG.getJeu_bomberman().isFin_partie() ) {
+					
+					if (FirstTime) {
+						FirstTime = false;
+						String resultat;
+						if (CBG.getJeu_bomberman().getMessage_fin_partie().matches("Plus d'ennemies !"))
+							resultat = "V";
+						else
+							resultat = "D";
+						int score_int = CBG.getJeu_bomberman().getPointsPartie();
+	
+						System.out.println(pseudo + "  " + resultat + "   " + score_int);
+	
+						try {
+							connexion = DriverManager.getConnection(Identifiant_BDD.getUrljdbc(),
+									Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
+							Statement statement = connexion.createStatement();
+	
+							int statut = statement
+									.executeUpdate("INSERT INTO Historique (pseudo_util, date_partie , score, resultat)"
+											+ "VALUES ('" + pseudo + "', NOW(), " + score_int + ", '" + resultat + "');");
+	
+						} catch (SQLException e) {
+							e.printStackTrace();
+						} finally {
+						    if ( connexion != null )
+						        try {
+						            connexion.close();
+						        } catch ( SQLException ignore ) {
+		
+									}
 							}
 					}
+				}else {
+					FirstTime = true;
 				}
-
-				if (chainerecue.equals("exit")) {
+				System.out.print("");
+				if(!CBG.FrameActive()) {
+					sortie.println("FERMER");
 					stop();
 					socket.close();
-					break;
-
+					isRunning = false;
+					System.out.println("Déconnexion Client");
 				}
-
-//			while(Suspendre) {
-//				Thread.sleep(100);
-//			}
 
 			}
 
-		} catch (IOException | NullPointerException e) {
-			System.out.println("Déconnexion");
+		} catch (IOException e) {
+			
 		}
 
 	}
@@ -113,7 +123,7 @@ public class ServThread implements Runnable {
 	}
 
 	public void init() {
-		System.out.println("Connexion");
+		System.out.println("Connexion Client");
 		isRunning = true;
 		thread = new Thread(this);
 		thread.start();
@@ -123,20 +133,5 @@ public class ServThread implements Runnable {
 		return chainerecue;
 	}
 
-	public void setCSortie(String ChaineSortie) {
-		try {
-			sortie.writeChars(ChaineSortie);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-//	public boolean isSuspendre() {
-//		return Suspendre;
-//	}
-//	public void setSuspendre(boolean suspendre) {
-//		Suspendre = suspendre;
-//	}
 
 }
