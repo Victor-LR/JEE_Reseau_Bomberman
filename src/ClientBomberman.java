@@ -92,7 +92,7 @@ public class ClientBomberman {
 				
 				while (isRunning) {
 
-					RecupKeys.requestFocus();
+					RecupKeys.requestFocusInWindow();
 					
 					//chaine = "";
 					System.out.print("");

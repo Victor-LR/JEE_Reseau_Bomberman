@@ -51,7 +51,7 @@ public class ServThread implements Runnable {
 			
 			String pseudo = entree.readLine();
 			
-			ControleurBombermanGame CBG = new ControleurBombermanGame(false,chainerecue);
+			ControleurBombermanGame CBG = new ControleurBombermanGame(false,pseudo);
 			boolean FirstTime = true;
 			
 			

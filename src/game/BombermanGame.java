@@ -44,7 +44,7 @@ public class BombermanGame extends Game implements Observable {
     private String message_fin_partie;
     private boolean fin_partie;
     
-	private static AgentAction ActionClient = AgentAction.MOVE_RIGHT;
+	private AgentAction ActionClient = AgentAction.STOP;
 
 	public BombermanGame() {
 		agentList = new ArrayList<Agent>();
@@ -697,11 +697,11 @@ public class BombermanGame extends Game implements Observable {
 		}
 	}
 
-	public static AgentAction getActionClient() {
+	public AgentAction getActionClient() {
 		return ActionClient;
 	}
 
-	public static void setActionClient(AgentAction actionClient) {
+	public void setActionClient(AgentAction actionClient) {
 		ActionClient = actionClient;
 	}
 }
