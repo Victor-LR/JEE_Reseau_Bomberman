@@ -8,7 +8,7 @@ import game.BombermanGame;
 public class MainServeurBomberman {
 
 	public static void main(String[] args) {
-		int port = 35000;
+		int port = 36000;
 		ServerSocket ecoute;
 		BombermanGame game;
 		

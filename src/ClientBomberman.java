@@ -11,11 +11,15 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import javax.swing.JFrame;
+
 import beans.Identifiant_BDD;
-import controleur.ControleurBombermanGame;
+import key.Keys;
 import view.ViewAuthenticator;
 
 public class ClientBomberman {
+	
+	private static Keys key_1;
 
 	public static void main(String[] args) {
 
@@ -31,7 +35,6 @@ public class ClientBomberman {
 		    String mdpBdd = null;
 		    HashMap<String,String> Pseudo_mdp = new HashMap();
 		    
-		    System.out.println(connexion.isClosed());
 
 			ResultSet resultat = statement.executeQuery("SELECT pseudo, mot_de_passe FROM Utilisateur ");
 			// + " WHERE (pseudo = \""+VA.getIdentifiant()+"\") & (mot_de_passe =
@@ -61,7 +64,7 @@ public class ClientBomberman {
 			BufferedReader entree;
 			PrintWriter sortie;
 			String serveur = "localhost";
-			int port = 35000;
+			int port = 36000;
 
 			System.out.println("CLIENT");
 			// serveur = args[0];
@@ -73,37 +76,35 @@ public class ClientBomberman {
 				socket = new Socket(serveur, port);
 				sortie = new PrintWriter(socket.getOutputStream(), true);
 				entree = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				//BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
 				String chaine;
 
 				VA.FermerFenetre();
-				ControleurBombermanGame CBG = new ControleurBombermanGame(false,pseudoBdd);
+				//ControleurBombermanGame CBG = new ControleurBombermanGame(false,pseudoBdd);
 				boolean firstTime = true;
+				boolean isRunning = true;
+				sortie.println(pseudoBdd);
+				
+				key_1 = new Keys();
+				JFrame RecupKeys = new JFrame();
+				RecupKeys.addKeyListener(key_1);
+				RecupKeys.setVisible(true);
+				
+				while (isRunning) {
 
-				while (true) {
-
-					chaine = "";
-//					chaine = commande.nextLine();
-//					sortie.println("_");
+					RecupKeys.requestFocus();
+					
+					//chaine = "";
 					System.out.print("");
-					if (!CBG.getJeu_bomberman().isRunning() && CBG.getJeu_bomberman().getTurn() > 0
-							&& !CBG.getJeu_bomberman().gameContinue()) {
-						if (firstTime) {
-							firstTime = false;
-							sortie.println(CBG.getJeu_bomberman().getMessage_fin_partie());
-							sortie.println(pseudoBdd);
-							sortie.println(CBG.getJeu_bomberman().getPointsPartie());
-						}
-					} else {
-						firstTime = true;
-					}
+					chaine = entree.readLine();
 
-//					if(chaine.equals("exit")) {
-//						sortie.println(chaine);
-//						socket.close();
-//						break;
-//					}
-//					else
-//						sortie.println(chaine);
+					sortie.println(key_1.getKaction());
+					
+					if(chaine.matches("FERMER")) {
+						RecupKeys.dispose();
+						socket.close();
+						isRunning = false;
+					}
 				}
 
 			} catch (IOException e) {

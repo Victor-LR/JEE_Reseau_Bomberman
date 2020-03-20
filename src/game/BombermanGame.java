@@ -43,6 +43,8 @@ public class BombermanGame extends Game implements Observable {
     
     private String message_fin_partie;
     private boolean fin_partie;
+    
+	private static AgentAction ActionClient = AgentAction.MOVE_RIGHT;
 
 	public BombermanGame() {
 		agentList = new ArrayList<Agent>();
@@ -96,6 +98,7 @@ public class BombermanGame extends Game implements Observable {
 		bombes = new ArrayList<InfoBomb>();
 		list_item = new ArrayList<InfoItem>();
 		list_etat = new ArrayList<BombermanAgress>();
+		fin_partie = false;
 		
 		int ind_bbm = 0;
 		for(Agent agent : ListAgentsStart)
@@ -134,6 +137,8 @@ public class BombermanGame extends Game implements Observable {
 	@Override
 	//Actions effectuées par les agents tout les tours
 	public void takeTurn() {
+		
+	
 		
 		for(int i = 0; i < agentList.size(); i++) {
 			
@@ -690,5 +695,13 @@ public class BombermanGame extends Game implements Observable {
 			agent.setTourInv(this.turn);
 			return true;
 		}
+	}
+
+	public static AgentAction getActionClient() {
+		return ActionClient;
+	}
+
+	public static void setActionClient(AgentAction actionClient) {
+		ActionClient = actionClient;
 	}
 }

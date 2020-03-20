@@ -9,21 +9,28 @@ import key.Keys;
 
 public class Strategie_Joueur1 implements Comportement {
 	
-	public static Keys key_1 ;
+	//public static Keys key_1 ;
+	public AgentAction ActionClient;
 	
 	public Strategie_Joueur1 () {
-		key_1 = BombermanGame.getKey_1();
+		//key_1 = BombermanGame.getKey_1();
+		//ActionClient = BombermanGame.
 	}
 	
 	@Override
 	public AgentAction doAction(Agent agent, ArrayList<Agent> agents) {
 
-		
-		if (BombermanGame.isLegalMove(agent,key_1.getKaction())) {
-			return key_1.getKaction();
-			
-		}else
-			return AgentAction.STOP;
+		ActionClient = BombermanGame.getActionClient();
+		if (BombermanGame.isLegalMove(agent,ActionClient)) {
+				return ActionClient;
+				
+			}else
+				return AgentAction.STOP;
+//		if (BombermanGame.isLegalMove(agent,key_1.getKaction())) {
+//			return key_1.getKaction();
+//			
+//		}else
+//			return AgentAction.STOP;
 
 	}
 
