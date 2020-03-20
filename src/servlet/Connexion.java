@@ -53,12 +53,14 @@ public class Connexion extends HttpServlet {
 		String mdp = request.getParameter(CHAMP_MDP);
 		HttpSession session = request.getSession();
 		boolean erreur = false;
+		// Recherche de l'utilisateur dans la bdd
 		try {
 			util = dao.trouver(pseudo);
 		} catch (Exception e) {
 			erreur = true;
 			request.setAttribute("erreurpseudo", e.getMessage());
 		}
+		// Vérification du mdp de l'utilisateur
 		try {
 			valideMdp(util, mdp);
 		} catch (Exception e) {

@@ -32,6 +32,9 @@ public class HistoriqueDaoImpl implements HistoriqueDao {
 
 	}
 
+	// Compte le nombre de victoire de tous les utilisateurs et les stocke dans un
+	// tableau trié
+
 	@Override
 	public ArrayList<JoueurClassement> trouverClassement(String orderby) throws Exception {
 		// TODO Auto-generated method stub
@@ -65,6 +68,7 @@ public class HistoriqueDaoImpl implements HistoriqueDao {
 
 	}
 
+	// Modifie le pseudo des utilisateurs dans la bdd
 	@Override
 	public void modifier(Utilisateur utilisateur, String exPseudo) throws DAOException {
 		// TODO Auto-generated method stub
@@ -83,6 +87,7 @@ public class HistoriqueDaoImpl implements HistoriqueDao {
 		}
 	}
 
+	// Affiche toutes les parties d'un utilisateur
 	@Override
 	public ArrayList<Partie> listingParties(String pseudo) throws DAOException {
 		ArrayList<Partie> listeParties = new ArrayList<Partie>();
@@ -108,6 +113,9 @@ public class HistoriqueDaoImpl implements HistoriqueDao {
 		return listeParties;
 	}
 
+	// Compte le nombre de défaite dans la bdd des joueurs et calcule ensuite le
+	// ratio à partir du nombre de victoires déjà connu des joueurs pour les stocker
+	// dans un tableau trié par la suite à l'aide de Comparator
 	@Override
 	public ArrayList<JoueurClassement> trouverRatio(ArrayList<JoueurClassement> listeJoueur, String orderby)
 			throws Exception {
@@ -142,6 +150,7 @@ public class HistoriqueDaoImpl implements HistoriqueDao {
 		return (ArrayList<JoueurClassement>) listeClassementRatio;
 	}
 
+	// Compte le nombre total de parties d'un utilisateur
 	@Override
 	public int totalPartie(String pseudo) {
 		Connection connexion = null;
@@ -163,6 +172,7 @@ public class HistoriqueDaoImpl implements HistoriqueDao {
 		return count;
 	}
 
+	// Compte le nombre total en fonction du resultat(victoire/défaite) d'un joueur
 	@Override
 	public int countResultat(String pseudo, String resultat) {
 		Connection connexion = null;

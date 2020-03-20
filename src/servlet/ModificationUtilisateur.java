@@ -75,6 +75,8 @@ public class ModificationUtilisateur extends HttpServlet {
 		HttpSession session = request.getSession();
 		Utilisateur util = (Utilisateur) session.getAttribute("utilisateur");
 		String exPseudo = util.getPseudo();
+
+		// Vérification des champs
 		try {
 			valideNom(nom);
 		} catch (Exception e) {

@@ -1,11 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,8 +47,6 @@ public class AccesAccorde extends HttpServlet {
 		float victoire, defaite;
 		float ratio = 0;
 		total = dao.totalPartie(util.getPseudo());
-//		total = executerCountTotal(session, Identifiant_BDD.getUrljdbc(), Identifiant_BDD.getUtilisateurBdd(),
-//				Identifiant_BDD.getMotDePasseBdd());
 		victoire = dao.countResultat(util.getPseudo(), "V");
 		defaite = dao.countResultat(util.getPseudo(), "D");
 		boolean b = (victoire + defaite) != 0;
@@ -74,94 +67,5 @@ public class AccesAccorde extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-	}
-
-	public int executerCountTotal(HttpSession session, String url, String utilisateur, String motDePasse) {
-		/* Connexion à la base de données */
-
-		Connection connexion = null;
-		PreparedStatement statement = null;
-		ResultSet resultat = null;
-		int count = 0;
-		try {
-			connexion = DriverManager.getConnection(url, utilisateur, motDePasse);
-
-			/* Création de l'objet gérant les requêtes */
-			statement = connexion.prepareStatement("SELECT COUNT(*) FROM Historique WHERE pseudo_util=?;");
-			Utilisateur util = (Utilisateur) session.getAttribute("utilisateur");
-			statement.setString(1, util.getPseudo());
-			resultat = statement.executeQuery();
-			if (resultat.next()) {
-				count = resultat.getInt(1);
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		} finally {
-			if (resultat != null) {
-				try {
-					resultat.close();
-				} catch (SQLException ignore) {
-				}
-			}
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException ignore) {
-				}
-			}
-			if (connexion != null) {
-				try {
-					connexion.close();
-				} catch (SQLException ignore) {
-				}
-			}
-		}
-		return count;
-	}
-
-	public int executerCountResultat(HttpSession session, String url, String utilisateur, String motDePasse,
-			String result) {
-		/* Connexion à la base de données */
-
-		Connection connexion = null;
-		PreparedStatement statement = null;
-		ResultSet resultat = null;
-		int count = 0;
-		try {
-			connexion = DriverManager.getConnection(url, utilisateur, motDePasse);
-
-			/* Création de l'objet gérant les requêtes */
-			statement = connexion
-					.prepareStatement("SELECT COUNT(resultat) FROM Historique WHERE (pseudo_util = ? AND resultat=?);");
-			Utilisateur util = (Utilisateur) session.getAttribute("utilisateur");
-			statement.setString(1, util.getPseudo());
-			statement.setString(2, result);
-			resultat = statement.executeQuery();
-			if (resultat.next()) {
-				count = resultat.getInt(1);
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		} finally {
-			if (resultat != null) {
-				try {
-					resultat.close();
-				} catch (SQLException ignore) {
-				}
-			}
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (SQLException ignore) {
-				}
-			}
-			if (connexion != null) {
-				try {
-					connexion.close();
-				} catch (SQLException ignore) {
-				}
-			}
-		}
-		return count;
 	}
 }

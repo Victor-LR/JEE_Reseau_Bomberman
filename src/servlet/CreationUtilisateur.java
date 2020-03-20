@@ -66,6 +66,7 @@ public class CreationUtilisateur extends HttpServlet {
 		String pseudo = request.getParameter(CHAMP_PSEUDO);
 		String mdp = request.getParameter(CHAMP_MDP);
 		String mdp2 = request.getParameter(CHAMP_MDP2);
+		// Vérification de chaque champ rempli par l'utilisateur
 		try {
 			valideNom(nom);
 		} catch (Exception e) {

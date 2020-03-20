@@ -30,6 +30,7 @@ public class Deconnexion extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		// On supprime la session de l'utilisateur
 		request.getSession().invalidate();
 		this.getServletContext().getRequestDispatcher("/deconnexion.jsp").forward(request, response);
 	}
