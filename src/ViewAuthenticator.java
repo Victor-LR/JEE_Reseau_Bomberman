@@ -51,7 +51,7 @@ public class ViewAuthenticator {
 		label_mdp.add(mdp);
 
 		affiche.setTitle("Authentification");
-		affiche.setSize(new Dimension(400, 500));
+		affiche.setSize(new Dimension(600, 500));
 		Dimension windowSize = affiche.getSize();
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Point centerPoint = ge.getCenterPoint();

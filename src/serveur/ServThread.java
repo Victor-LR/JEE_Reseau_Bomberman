@@ -102,8 +102,9 @@ public class ServThread implements Runnable {
 					FirstTime = true;
 				}
 				System.out.print("");
-				if(!CBG.FrameActive()) {
+				if(CBG.isExit()) {
 					sortie.println("FERMER");
+					//CBG.getVue_jeu().
 					stop();
 					socket.close();
 					isRunning = false;

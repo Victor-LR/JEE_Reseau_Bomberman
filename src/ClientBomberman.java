@@ -1,3 +1,6 @@
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,8 +21,6 @@ import key.Keys;
 import view.ViewAuthenticator;
 
 public class ClientBomberman {
-	
-	private static Keys key_1;
 
 	public static void main(String[] args) {
 
@@ -85,23 +86,20 @@ public class ClientBomberman {
 				boolean isRunning = true;
 				sortie.println(pseudoBdd);
 				
-				key_1 = new Keys();
-				JFrame RecupKeys = new JFrame();
-				RecupKeys.addKeyListener(key_1);
-				RecupKeys.setVisible(true);
+				PanelControl panneauClient = new PanelControl();
 				
 				while (isRunning) {
 
-					RecupKeys.requestFocusInWindow();
+					panneauClient.getJFrame().requestFocusInWindow();
 					
 					//chaine = "";
 					System.out.print("");
 					chaine = entree.readLine();
 
-					sortie.println(key_1.getKaction());
+					sortie.println(panneauClient.getKey_1().getKaction());
 					
 					if(chaine.matches("FERMER")) {
-						RecupKeys.dispose();
+						panneauClient.getJFrame().dispose();
 						socket.close();
 						isRunning = false;
 					}

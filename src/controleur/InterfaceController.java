@@ -8,6 +8,7 @@ public interface InterfaceController {
 	public void start();
 	public void run();
 	public void stop();
+	public void exit();
 	public void setTime(double time);
 	public void changeMap(String name);
 	public void setMap(Map map);

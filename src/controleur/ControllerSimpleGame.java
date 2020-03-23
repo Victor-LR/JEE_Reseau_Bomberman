@@ -63,4 +63,10 @@ public class ControllerSimpleGame implements InterfaceController {
 		
 	}
 
+	@Override
+	public void exit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
