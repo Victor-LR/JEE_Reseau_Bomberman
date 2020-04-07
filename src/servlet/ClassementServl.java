@@ -43,6 +43,8 @@ public class ClassementServl extends HttpServlet {
 		// TODO Auto-generated method stub
 		Classement classement = new Classement();
 		try {
+			// Liste des joueurs qui sont triés lors de la récupération dans la base en
+			// fonction du nombre de victoire/ratio jour/mois
 			classement.setClassementJournalier(dao.trouverClassement(CHAMP_JOUR));
 			classement.setClassementMensuel(dao.trouverClassement(CHAMP_MOIS));
 			classement.setClassementJournalierRatio(dao.trouverRatio(classement.getClassementJournalier(), CHAMP_JOUR));
