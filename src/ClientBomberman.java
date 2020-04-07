@@ -18,7 +18,6 @@ public class ClientBomberman {
 	public static void main(String[] args) {
 
 		ViewAuthenticator VA = new ViewAuthenticator();
-	//	Identifiant_BDD ID_BDD = new Identifiant_BDD();
 		
 		Connection connexion = null;
 		try {
@@ -31,8 +30,6 @@ public class ClientBomberman {
 		    
 
 			ResultSet resultat = statement.executeQuery("SELECT pseudo, mot_de_passe FROM Utilisateur ");
-			// + " WHERE (pseudo = \""+VA.getIdentifiant()+"\") & (mot_de_passe =
-			// \""+VA.getMot_de_passe()+"\");" );
 
 			while (resultat.next()) {
 				pseudoBdd = resultat.getString("pseudo");
@@ -61,8 +58,6 @@ public class ClientBomberman {
 			int port = 36000;
 
 			System.out.println("CLIENT");
-			// serveur = args[0];
-			// port = Integer.parseInt(args[1]);
 			System.out.println("Port " + port + " adresse " + serveur);
 			Scanner commande = new Scanner(System.in);
 
@@ -74,7 +69,6 @@ public class ClientBomberman {
 				String chaine;
 
 				VA.FermerFenetre();
-				//ControleurBombermanGame CBG = new ControleurBombermanGame(false,pseudoBdd);
 				boolean firstTime = true;
 				boolean isRunning = true;
 				sortie.println(pseudoBdd);

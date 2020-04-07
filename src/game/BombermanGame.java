@@ -104,11 +104,11 @@ public class BombermanGame extends Game implements Observable {
 		for(Agent agent : ListAgentsStart)
 		{
 			if(agent.getType()=='B') {
-				System.out.println("Bomb");
+				//System.out.println("Bomb");
 				Agent_Bomberman bomberman = (Agent_Bomberman) bombermanFactory.createAgent(agent.getX(), agent.getY(), agent.getAgentAction(), 'B', agent.getColor(), agent.isInvincible(), agent.isSick(),this.getNom_strats().get(ind_bbm));
 				agentList.add(bomberman);
 				list_etat.add(new BombermanAgress(bomberman, this,agentList));
-				System.out.println("Strat " + this.getNom_strats().get(ind_bbm));
+				//System.out.println("Strat " + this.getNom_strats().get(ind_bbm));
 				ind_bbm++;
 			}
 			else {
@@ -200,8 +200,8 @@ public class BombermanGame extends Game implements Observable {
 
 	@Override
 	public void gameOver() {
-		System.out.println(message_fin_partie);
-		System.out.println("Fin du jeu au tour : " + this.turn);
+		//System.out.println(message_fin_partie);
+		//System.out.println("Fin du jeu au tour : " + this.turn);
 		fin_partie = true;
 	}
 	

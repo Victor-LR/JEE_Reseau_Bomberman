@@ -100,7 +100,7 @@ public class PanelControl {
 		
 		Panneau.add(panneauCommande);
 		RecupKeys.add(Panneau);
-		
+		RecupKeys.setSize(new Dimension(600+1, 200+1));
 	}
 
 	public JFrame getJFrame() {

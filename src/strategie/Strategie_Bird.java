@@ -12,7 +12,7 @@ public class Strategie_Bird implements Comportement{
 		
 		for(int i =0; i<agents.size(); i++) {
 //			 Détecte un bomberman sur un rayon de 3 cases
-			System.out.println(agents.get(i).getType() +"   "+agents.get(i).getX() + "    " + agents.get(i).getY());
+			//System.out.println(agents.get(i).getType() +"   "+agents.get(i).getX() + "    " + agents.get(i).getY());
 			AgentAction[] listaction = AgentAction.values();
 			int action_random = (int) (Math.random()*listaction.length);
 			
