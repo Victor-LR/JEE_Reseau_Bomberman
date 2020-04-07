@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import game.BombermanGame;
 import strategie.Comportement;
+import strategie.Strategie_Joueur1;
 import view.ViewBombermanGame;
 
 public class Agent {
@@ -112,7 +113,10 @@ public class Agent {
 		
 		if(strategie.getClass().getName() == "perceptron.Strategie_Perceptron")
 			return this.strategie.doActionPerceptron(this, agents, BBMG);
-		else {
+		else if (strategie.getClass().getName() == "strategie.Strategie_Joueur1") {
+			((Strategie_Joueur1) this.strategie).setActionC(BBMG.getActionClient());
+			return this.strategie.doAction(this, agents);
+		} else {
 			return this.strategie.doAction(this, agents);
 		}
 

@@ -52,8 +52,8 @@ public class ViewBombermanGame implements Observer {
 		Point centerPoint = ge.getCenterPoint();
 		int dx = centerPoint.x - windowSize.width / 2 ;
 		int dy = centerPoint.y - windowSize.height / 2 ;
-		jframe_bbm.setLocation(dx, dy);
-		jframe_bbm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  
+		jframe_bbm.setLocation(dx, dy-1000);
+		jframe_bbm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		jframe_bbm.setLayout(new BorderLayout());
 		

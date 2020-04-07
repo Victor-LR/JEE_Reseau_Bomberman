@@ -13,8 +13,10 @@ public class ControleurBombermanGame implements InterfaceController {
 	private static boolean perceptron = false;
 	private static Map map;
 	String pseudo = "";
+	private boolean exit; 
 	
 	public ControleurBombermanGame(boolean perc, String pseud) {
+		exit = false;
 		ControleurBombermanGame.perceptron = perc;
 		this.Jeu_bomberman = new BombermanGame();
 		this.pseudo = pseud;
@@ -25,8 +27,6 @@ public class ControleurBombermanGame implements InterfaceController {
 			vue_commande = new ViewCommand(this,Jeu_bomberman,vue_jeu.getJframe_bbm());
 			Jeu_bomberman.setListAgentsStart(map.getStart_agents());
 		}
-		
-		
 	}
 
 	@Override
@@ -70,6 +70,7 @@ public class ControleurBombermanGame implements InterfaceController {
 	}
 	
 	public boolean FrameActive() {
+		//this.vue_jeu.getJframe_bbm()
 		return this.vue_jeu.getJframe_bbm().isDisplayable();
 		
 	}
@@ -92,5 +93,23 @@ public class ControleurBombermanGame implements InterfaceController {
 
 	public void setMap(Map map) {
 		this.map = map;
+	}
+
+	@Override
+	public void exit() {
+		setExit(true);
+		this.vue_jeu.getJframe_bbm().dispose();
+	}
+
+	public boolean isExit() {
+		return exit;
+	}
+
+	public void setExit(boolean exit) {
+		this.exit = exit;
+	}
+
+	public ViewBombermanGame getVue_jeu() {
+		return vue_jeu;
 	}
 }

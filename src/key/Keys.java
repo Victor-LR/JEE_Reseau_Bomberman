@@ -87,7 +87,6 @@ private AgentAction Kaction;
 		switch(Deplacement){
 		case 0:
 			setKaction(AgentAction.STOP);
-
 			break;
 		case 1:
 			setKaction(AgentAction.MOVE_UP);
@@ -110,7 +109,7 @@ private AgentAction Kaction;
 //		
 	}
 	
-	private void setKaction(AgentAction action) {
+	public void setKaction(AgentAction action) {
 		this.Kaction = action;
 	}
 

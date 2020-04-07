@@ -51,7 +51,7 @@ public class ServThread implements Runnable {
 			
 			String pseudo = entree.readLine();
 			
-			ControleurBombermanGame CBG = new ControleurBombermanGame(false,chainerecue);
+			ControleurBombermanGame CBG = new ControleurBombermanGame(false,pseudo);
 			boolean FirstTime = true;
 			
 			
@@ -102,8 +102,9 @@ public class ServThread implements Runnable {
 					FirstTime = true;
 				}
 				System.out.print("");
-				if(!CBG.FrameActive()) {
+				if(CBG.isExit()) {
 					sortie.println("FERMER");
+					//CBG.getVue_jeu().
 					stop();
 					socket.close();
 					isRunning = false;

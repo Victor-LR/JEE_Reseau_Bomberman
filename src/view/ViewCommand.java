@@ -36,6 +36,7 @@ public class ViewCommand implements Observer{
 	JButton StepChoice;
 	JButton RunChoice;
 	JButton StopChoice;
+	JButton Exit;
 	JComboBox MapChoice;
 	JSlider slider;
 	
@@ -64,9 +65,19 @@ public class ViewCommand implements Observer{
 		
 		
 		JPanel panneauState = new JPanel(new GridLayout(2, 1));
-		JPanel panneauCommande = new JPanel(new GridLayout(1, 4));
-		JPanel panneauTour = new JPanel(new GridLayout(1, 2)); 
+		JPanel panneauCommande = new JPanel(new GridLayout(1, 5));
+		JPanel panneauTour = new JPanel(new GridLayout(1, 2));
 		
+	//Bouton Exit
+		Exit = new JButton("Quitter le Jeu");
+		panneauCommande.add(Exit);
+		
+		Exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evenement) {
+				controller.exit();
+				controller.stop();
+			}
+			});
 		
 	//Bouton Restart
 		Icon icon_restart = new ImageIcon("Icones/icon_restart.png");
