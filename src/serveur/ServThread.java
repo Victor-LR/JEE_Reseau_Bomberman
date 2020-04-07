@@ -1,7 +1,6 @@
 package serveur;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -16,7 +15,6 @@ import java.sql.Statement;
 import agents.AgentAction;
 import beans.Identifiant_BDD;
 import controleur.ControleurBombermanGame;
-import view.ViewAuthenticator;
 
 public class ServThread implements Runnable {
 
@@ -33,7 +31,6 @@ public class ServThread implements Runnable {
 	Connection connexion = null;
 
 	public ServThread(ServerSocket ecoute) {
-
 		try {
 			socket = ecoute.accept();
 		} catch (IOException e) {
@@ -48,25 +45,23 @@ public class ServThread implements Runnable {
 		try {
 			entree = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			sortie = new PrintWriter(socket.getOutputStream(), true);
-			
+
 			String pseudo = entree.readLine();
-			
-			ControleurBombermanGame CBG = new ControleurBombermanGame(false,pseudo);
+
+			ControleurBombermanGame CBG = new ControleurBombermanGame(false, pseudo);
 			boolean FirstTime = true;
-			
-			
-			
+
 			while (isRunning) {
-					
-				//chainerecue = entree.readLine();
+
+				// chainerecue = entree.readLine();
 				sortie.println("RIEN");
 				String RecupAction_string = entree.readLine();
 				AgentAction RecupAction = AgentAction.valueOf(RecupAction_string);
-				
+
 				CBG.getJeu_bomberman().setActionClient(RecupAction);
-				
-				if (CBG.getJeu_bomberman().isFin_partie() ) {
-					
+
+				if (CBG.getJeu_bomberman().isFin_partie()) {
+
 					if (FirstTime) {
 						FirstTime = false;
 						String resultat;
@@ -75,36 +70,36 @@ public class ServThread implements Runnable {
 						else
 							resultat = "D";
 						int score_int = CBG.getJeu_bomberman().getPointsPartie();
-	
+
 						System.out.println(pseudo + "  " + resultat + "   " + score_int);
-	
+
 						try {
 							connexion = DriverManager.getConnection(Identifiant_BDD.getUrljdbc(),
 									Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
 							Statement statement = connexion.createStatement();
-	
-							int statut = statement
-									.executeUpdate("INSERT INTO Historique (pseudo_util, date_partie , score, resultat)"
-											+ "VALUES ('" + pseudo + "', NOW(), " + score_int + ", '" + resultat + "');");
-	
+
+							int statut = statement.executeUpdate(
+									"INSERT INTO Historique (pseudo_util, date_partie , score, resultat)" + "VALUES ('"
+											+ pseudo + "', NOW(), " + score_int + ", '" + resultat + "');");
+
 						} catch (SQLException e) {
 							e.printStackTrace();
 						} finally {
-						    if ( connexion != null )
-						        try {
-						            connexion.close();
-						        } catch ( SQLException ignore ) {
-		
-									}
-							}
+							if (connexion != null)
+								try {
+									connexion.close();
+								} catch (SQLException ignore) {
+
+								}
+						}
 					}
-				}else {
+				} else {
 					FirstTime = true;
 				}
 				System.out.print("");
-				if(CBG.isExit()) {
+				if (CBG.isExit()) {
 					sortie.println("FERMER");
-					//CBG.getVue_jeu().
+					// CBG.getVue_jeu().
 					stop();
 					socket.close();
 					isRunning = false;
@@ -114,7 +109,7 @@ public class ServThread implements Runnable {
 			}
 
 		} catch (IOException e) {
-			
+
 		}
 
 	}
@@ -133,6 +128,5 @@ public class ServThread implements Runnable {
 	public String getChainerecue() {
 		return chainerecue;
 	}
-
 
 }
