@@ -20,6 +20,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 		daoFactory = dao;
 	}
 
+	// Creer un utilisateur dans la base Utilisateur
 	@Override
 	public void creer(Utilisateur utilisateur) throws DAOException {
 		// TODO Auto-generated method stub
@@ -48,6 +49,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 		}
 	}
 
+	// Recherche de l'utilisateur à partir du pseudo unique à chaque utilisateur
 	@Override
 	public Utilisateur trouver(String pseudo) throws Exception {
 		Connection connexion = null;
@@ -70,6 +72,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 		return util;
 	}
 
+	// Suppression à partir de l'identifiant
 	@Override
 	public void supprimer(int id) throws DAOException {
 		Connection connexion = null;
@@ -90,6 +93,8 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 		}
 	}
 
+	// Recherche de l'utilisateur à partir de l'identifiant et remplace toutes les
+	// information nécessaires
 	@Override
 	public void modifier(Utilisateur utilisateur) throws DAOException {
 		// TODO Auto-generated method stub
@@ -123,6 +128,8 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 		return preparedStatement;
 	}
 
+	// Initialise toutes les informations concernant un utilisateur depuis la bdd et
+	// renvoie cette utilisateur
 	private static Utilisateur map(ResultSet resultSet) throws SQLException {
 		Utilisateur utilisateur = new Utilisateur(resultSet.getString("nom"), resultSet.getString("prenom"),
 				resultSet.getString("pseudo"), resultSet.getString("mot_de_passe"), resultSet.getString("email"),
