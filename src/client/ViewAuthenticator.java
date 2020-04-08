@@ -1,3 +1,4 @@
+package client;
 
 
 import java.awt.Dimension;
@@ -12,6 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+//Lance un JFrame qui récupére les indentifiants du joueur 
 
 public class ViewAuthenticator {
 
@@ -69,11 +72,6 @@ public class ViewAuthenticator {
 			public void actionPerformed(ActionEvent evenement) {
 				identifiant = identification.getText().toString();
 				mot_de_passe = mdp.getSelectedText().toString();
-				// mot_de_passe = mdp.getSelectedText().toString();
-
-				// System.out.println("Id :" + identifiant);
-				// System.out.println("MDP :" + mot_de_passe);
-
 			}
 		});
 

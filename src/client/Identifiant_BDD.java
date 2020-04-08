@@ -1,5 +1,6 @@
+package client;
 
-
+//Indentifiants utilisés par le client pour se connecter à la BDD
 public class Identifiant_BDD {
 
 	private final static String urlJDBC = "jdbc:mysql://localhost:3306/bdd_bomberman";

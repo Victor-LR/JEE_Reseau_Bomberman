@@ -24,10 +24,6 @@ public class ServThread implements Runnable {
 	private Socket socket;
 	private BufferedReader entree;
 	private PrintWriter sortie;
-	private ObjectInputStream entree_obj;
-	private String chainerecue = "";
-//	private boolean Suspendre;
-
 	Connection connexion = null;
 
 	public ServThread(ServerSocket ecoute) {
@@ -45,23 +41,29 @@ public class ServThread implements Runnable {
 		try {
 			entree = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			sortie = new PrintWriter(socket.getOutputStream(), true);
-
+			
+			//Récupération du pseudo du joueur
 			String pseudo = entree.readLine();
 
+			//Lance le jeu Bomberman
 			ControleurBombermanGame CBG = new ControleurBombermanGame(false, pseudo);
+			
 			boolean FirstTime = true;
-
+			
 			while (isRunning) {
 
-				// chainerecue = entree.readLine();
 				sortie.println("RIEN");
+				//Récupère l'action du envoyé par le client
 				String RecupAction_string = entree.readLine();
 				AgentAction RecupAction = AgentAction.valueOf(RecupAction_string);
-
+				
+				//Transmet l'action récupéré au bomberman du Jeu
 				CBG.getJeu_bomberman().setActionClient(RecupAction);
 
+				//Vérifie si la partie est finie
 				if (CBG.getJeu_bomberman().isFin_partie()) {
 
+					//Boolean qui empêche d'envoyer le résultat de la partie plus d'une fois dans la bdd
 					if (FirstTime) {
 						FirstTime = false;
 						String resultat;
@@ -74,6 +76,7 @@ public class ServThread implements Runnable {
 						System.out.println(pseudo + "  " + resultat + "   " + score_int);
 
 						try {
+							//Connexion à la bdd et envoi des informations
 							connexion = DriverManager.getConnection(Identifiant_BDD.getUrljdbc(),
 									Identifiant_BDD.getUtilisateurBdd(), Identifiant_BDD.getMotDePasseBdd());
 							Statement statement = connexion.createStatement();
@@ -97,6 +100,7 @@ public class ServThread implements Runnable {
 					FirstTime = true;
 				}
 				System.out.print("");
+				//Quand on ferme le jeu, on ferme aussi le thread
 				if (CBG.isExit()) {
 					sortie.println("FERMER");
 					stop();
@@ -122,10 +126,6 @@ public class ServThread implements Runnable {
 		isRunning = true;
 		thread = new Thread(this);
 		thread.start();
-	}
-
-	public String getChainerecue() {
-		return chainerecue;
 	}
 
 }

@@ -1,4 +1,4 @@
-import java.awt.Component;
+package client;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 
 import agents.AgentAction;
 import key.Keys;
+
+//Créer un Jframe afin de récupérer les déplacements saisis aux claviers, ou via les boutons, par l'utilisateur
 
 public class PanelControl {
 	
